@@ -1,0 +1,7 @@
+node_modules
+build
+.firebase
+.firebaserc
+firebase.json
+github-ssh
+github-ssh.pub
