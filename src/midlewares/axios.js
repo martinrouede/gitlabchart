@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { withRouter } from "react-router-dom";
+import { withRouter } from 'react-router-dom';
 
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Backdrop from '@material-ui/core/Backdrop';
 import { makeStyles } from '@material-ui/core/styles';
 
-import axios from "axios";
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
     backdrop: {
@@ -36,7 +36,7 @@ function ConfigAxios(props) {
     }, []);
     return (
         <Backdrop className={classes.backdrop} open={openProgress} >
-            <CircularProgress color="inherit" />
+            <CircularProgress color='inherit' />
         </Backdrop>
     );
 }

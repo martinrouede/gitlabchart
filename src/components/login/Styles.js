@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
     buttonLogin: {
         fontSize: '2em',
         '&:hover': {
-            color: "#0bbc0b",
+            color: '#0bbc0b',
         },
     },
     getToken: {

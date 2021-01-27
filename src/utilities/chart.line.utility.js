@@ -2,7 +2,7 @@ import CommonUtility from './common.utility';
 
 const handleSetDataLineChart = (issues) => {
     let data = [];
-    data.push(["x", "Estimated", "Spent"]);
+    data.push(['x', 'Estimated', 'Spent']);
 
     let hoursEstimate = CommonUtility.fullTimeEstimate(issues);
     let businessDays = CommonUtility.getBusinessDays(issues[0].milestone.start_date, issues[0].milestone.due_date);

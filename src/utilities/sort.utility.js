@@ -20,16 +20,16 @@ const sortGroups = async (groups) => {
     return parents;
 }
 
-const sortIssues = async (issues, project, labels) => {
+const sortIssues = async (issues, project, doingLabel, doneLabel) => {
     for (let index = 0; index < issues.length; index++) {
         const issue = issues[index];
         let issueResources = await RequestGitLab.fetchResources(AuthService.getCurrentUser(), project, issue.iid);
         for (let index = 0; index < issueResources.length; index++) {
             const element = issueResources[index];
-            if (element.action === 'add' && element.label.name === labels[2].name) {
+            if (element.action === 'add' && element.label.name === doneLabel.name) {
                 issue.moveDone = element.created_at;
             } else {
-                if (element.action === 'remove' && element.label.name === labels[1].name) {
+                if (element.action === 'remove' && element.label.name === doingLabel.name) {
                     issue.moveDone = element.created_at;
                 }
             }

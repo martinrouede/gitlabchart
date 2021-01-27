@@ -64,19 +64,19 @@ const DrawerBar = params => {
         <div className={classes.root}>
             <CssBaseline />
             <AppBar
-                position="fixed"
+                position='fixed'
                 className={clsx(classes.appBar, {
                     [classes.appBarShift]: open,
                 })}
             >
                 <Toolbar style={{ backgroundColor: theme.palette.secondary.main }}>
-                    <Typography variant="h6" noWrap className={classes.title}>
+                    <Typography variant='h6' noWrap className={classes.title}>
                         GitLab Chart
           </Typography>
                     <IconButton
-                        color="inherit"
-                        aria-label="open drawer"
-                        edge="end"
+                        color='inherit'
+                        aria-label='open drawer'
+                        edge='end'
                         onClick={handleDrawerOpen}
                         className={clsx(open && classes.hide)}
                     >
@@ -93,8 +93,8 @@ const DrawerBar = params => {
             </main>
             <Drawer
                 className={classes.drawer}
-                variant="persistent"
-                anchor="right"
+                variant='persistent'
+                anchor='right'
                 open={open}
                 classes={{
                     paper: classes.drawerPaper,
@@ -111,7 +111,7 @@ const DrawerBar = params => {
                         <img
                             className={classes.avatar}
                             src={user.avatar_url}
-                            alt="user avatar"
+                            alt='user avatar'
                         />
                     </Link>
                     : <AccountCircle className={classes.avatarLess} />

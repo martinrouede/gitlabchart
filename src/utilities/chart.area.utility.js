@@ -4,7 +4,7 @@ import AuthService from '../services/auth.service';
 
 const moment = require('moment');
 
-const handleSetDataAreaChart = async (issues, project, labels) => {
+const handleSetDataAreaChart = async (issues, project, todoLabel, doingLabel, doneLabel) => {
 
     let issuesInfo = [];
 
@@ -17,17 +17,17 @@ const handleSetDataAreaChart = async (issues, project, labels) => {
         };
         let resources = await RequestGitLab.fetchResources(AuthService.getCurrentUser(), project, issues[index].iid);
 
-        info = completeIssuesDateProgress(info, resources, labels);
+        info = completeIssuesDateProgress(info, resources, todoLabel, doingLabel, doneLabel);
         issuesInfo.push(info);
     }
 
     return generateDataForChart(issuesInfo);
 }
 
-const completeIssuesDateProgress = (info, resources, labels) => {
+const completeIssuesDateProgress = (info, resources, todoLabel, doingLabel, doneLabel) => {
 
     for (let i = 0; i < resources.length; i++) {
-        if (resources[i].label.name === labels[0].name) {
+        if (resources[i].label.name === todoLabel.name) {
             if (resources[i].action === 'add') {
                 info.todo.start = resources[i].created_at;
             }
@@ -35,7 +35,7 @@ const completeIssuesDateProgress = (info, resources, labels) => {
                 info.todo.end = resources[i].created_at;
             }
         }
-        if (resources[i].label.name === labels[1].name) {
+        if (resources[i].label.name === doingLabel.name) {
             if (resources[i].action === 'add') {
                 info.doing.start = resources[i].created_at;
             }
@@ -43,7 +43,7 @@ const completeIssuesDateProgress = (info, resources, labels) => {
                 info.doing.end = resources[i].created_at;
             }
         }
-        if (resources[i].label.name === labels[2].name) {
+        if (resources[i].label.name === doneLabel.name) {
             if (resources[i].action === 'add') {
                 info.done.start = resources[i].created_at;
             }

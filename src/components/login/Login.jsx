@@ -38,22 +38,22 @@ const Login = (props) => {
 
     const saveConfig = () => {
         AuthService.login(serverUrl, privateToken);
-        props.history.push("/");
+        props.history.push('/');
     }
 
     return (
         <div className={classes.root}>
-            <Tooltip placement="bottom-end" title="This logo was created 100% in CSS. See more details in src/logo/GitLabLogo.css">
+            <Tooltip placement='bottom-end' title='This logo was created 100% in CSS. See more details in src/logo/GitLabLogo.css'>
                 <div><GitLabLogo /></div>
             </Tooltip>
 
             <div className={classes.form}>
                 <FormControl className={classes.formControl}>
-                    <InputLabel color='secondary' required={true} id="input-label-server-url">
+                    <InputLabel color='secondary' required={true} id='input-label-server-url'>
                         Server URL
                     </InputLabel>
                     <Input
-                        id="input-server-url"
+                        id='input-server-url'
                         color='secondary'
                         placeholder='e.g. https://domain.com/'
                         required={true}
@@ -61,9 +61,9 @@ const Login = (props) => {
                         value={serverUrl || ''}
                         onChange={e => setServerUrl(e.target.value)}
                         endAdornment={
-                            <InputAdornment position="end">
+                            <InputAdornment position='end'>
                                 <IconButton
-                                    aria-label="toggle password visibility"
+                                    aria-label='toggle password visibility'
                                     onClick={() => handleShowUrl()}
                                 >
                                     {showUrl ? <Visibility /> : <VisibilityOff />}
@@ -74,20 +74,20 @@ const Login = (props) => {
                 </FormControl>
 
                 <FormControl className={classes.formControl}>
-                    <InputLabel color='secondary' required={true} id="input-label-private-token">
+                    <InputLabel color='secondary' required={true} id='input-label-private-token'>
                         Private Token
                     </InputLabel>
                     <Input
-                        id="input-private-token"
+                        id='input-private-token'
                         color='secondary'
                         required={true}
                         type={showToken ? 'text' : 'password'}
                         value={privateToken || ''}
                         onChange={e => setPrivateToken(e.target.value)}
                         endAdornment={
-                            <InputAdornment position="end">
+                            <InputAdornment position='end'>
                                 <IconButton
-                                    aria-label="toggle password visibility"
+                                    aria-label='toggle password visibility'
                                     onClick={() => handleShowToken()}
                                 >
                                     {showToken ? <Visibility /> : <VisibilityOff />}
@@ -103,7 +103,7 @@ const Login = (props) => {
 
                 <div className={classes.getToken}>
                     <Link color='secondary' href='https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html'>
-                        How I get my "Private Token"?
+                        How I get my 'Private Token'?
                     </Link>
                 </div>
             </div>

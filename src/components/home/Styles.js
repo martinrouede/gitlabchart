@@ -2,9 +2,9 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        direction: "column",
-        alignItems: "center",
-        justify: "center",
+        direction: 'column',
+        alignItems: 'center',
+        justify: 'center',
     },
     backdrop: {
         zIndex: theme.zIndex.drawer + 1,

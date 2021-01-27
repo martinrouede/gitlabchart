@@ -2,7 +2,7 @@ const SEG_HORAS = 3600;
 
 const handleSetDataColumnChart = (issues) => {
     let data = [];
-    data.push(["# Issue", "Estimated", "Spent"]);
+    data.push(['# Issue', 'Estimated', 'Spent']);
     for (let index = 0; index < issues.length; index++) {
         const element = issues[index];
         //let cardId = '#' + element.id;

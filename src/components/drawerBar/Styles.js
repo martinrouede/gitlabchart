@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
         paddingTop: '0px',
         fontSize: '2em',
         '&:hover': {
-            color: "#cc1e00",
+            color: '#cc1e00',
         },
     },
     avatar: {

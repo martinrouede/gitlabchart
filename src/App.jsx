@@ -7,7 +7,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Styles from './Styles';
 import Home from './components/home/Home';
 import Contact from './components/contact/Contact';
-import DrawerBar from "./components/drawerBar/DrawerBar";
+import DrawerBar from './components/drawerBar/DrawerBar';
 import Login from './components/login/Login';
 import PrivateRoute from './components/PrivateRoute';
 import ConfigAxios from './midlewares/axios';
@@ -41,8 +41,8 @@ const App = (props) => {
           <ConfigAxios />
 
           <Switch>
-            <Route exact path="/login" component={Login} />
-            <PrivateRoute exact path={["/", "/home"]} component={Home} />
+            <Route exact path='/login' component={Login} />
+            <PrivateRoute exact path={['/', '/home']} component={Home} />
           </Switch>
 
          <Contact />
