@@ -209,7 +209,6 @@ const Home = (props) => {
         <div className={classes.root}>
 
             <div className={classes.options}>
-                <Button color='secondary' onClick={() => handleUseLastSettings()}>Use last config</Button>
 
                 <FormControl className={classes.formControl}>
                     <InputLabel color='secondary' id='group-input'>Group</InputLabel>
@@ -308,11 +307,19 @@ const Home = (props) => {
                     </Select>
                 </FormControl>
 
-                <Button variant='contained' color='secondary' onClick={() => handleSetDataChart()}
-                    disabled={!milestone || !toDoLabel || !doingLabel || !doneLabel || !project || !group}>
-                    Generate Charts
-                </Button>
             </div >
+            <div className={classes.buttons}>
+                <FormControl className={classes.formControl}>
+                    <Button color='secondary' onClick={() => handleUseLastSettings()}>Use last config</Button>
+                </FormControl>
+
+                <FormControl className={classes.formControl}>
+                    <Button variant='contained' color='secondary' onClick={() => handleSetDataChart()}
+                        disabled={!milestone || !toDoLabel || !doingLabel || !doneLabel || !project || !group}>
+                        Generate Charts
+                    </Button>
+                </FormControl>
+            </div>
             {
                 viewCharts ?
                     <div className={classes.charts

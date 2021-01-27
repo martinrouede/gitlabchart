@@ -13,15 +13,13 @@ const Contact = (props) => {
     const classes = Styles.useStyles();
 
     return (
-        <div className={classes.root}>
-            <div className={classes.infoContact}>
-                <Link href='https://twitter.com/martinrouede'>
-                    <FontAwesomeIcon icon={faTwitter} className={classes.icon} />
-                </Link>
-                <Link href='https://github.com/martinrouede'>
-                    <FontAwesomeIcon icon={faGithub} className={classes.icon} />
-                </Link>
-            </div>
+        <div className={classes.infoContact}>
+            <Link href='https://twitter.com/martinrouede'>
+                <FontAwesomeIcon icon={faTwitter} className={classes.icon} />
+            </Link>
+            <Link href='https://github.com/martinrouede'>
+                <FontAwesomeIcon icon={faGithub} className={classes.icon} />
+            </Link>
         </div>
     );
 }

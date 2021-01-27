@@ -15,6 +15,11 @@ const useStyles = makeStyles((theme) => ({
         alignItems: 'center',
         justifyContent: 'center',
     },
+    buttons: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
     charts: {
         marginBottom: theme.spacing(10),
     },
