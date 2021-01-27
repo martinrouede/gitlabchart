@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Chart } from "react-google-charts";
+import { Chart } from 'react-google-charts';
 
 import { useTheme } from '@material-ui/core/styles';
 import Select from '@material-ui/core/Select';
@@ -12,7 +12,9 @@ import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import Chip from '@material-ui/core/Chip';
-import Alert from "@material-ui/lab/Alert";
+import TextField from '@material-ui/core/TextField';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import Alert from '@material-ui/lab/Alert';
 
 import RequestGitLab from '../../services/request.gitlab.service';
 import AuthService from '../../services/auth.service';
@@ -41,7 +43,9 @@ const Home = (props) => {
     const [group, setGroup] = useState('');
 
     const [labels, setLabels] = useState([]);
-    const [labelsSelected, setLabelsSelected] = useState([]);
+    const [toDoLabel, setToDoLabel] = useState({});
+    const [doingLabel, setDoingLabel] = useState({});
+    const [doneLabel, setDoneLabel] = useState({});
 
     const [issues, setIssues] = useState([]);
 
@@ -84,7 +88,9 @@ const Home = (props) => {
         setMilestone('');
         setIssues([]);
         setLabels([]);
-        setLabelsSelected([]);
+        setToDoLabel({});
+        setDoingLabel({});
+        setDoneLabel({});
         setViewCharts(false);
     };
 
@@ -119,15 +125,32 @@ const Home = (props) => {
         setMilestone('');
         setIssues([]);
         setLabels([]);
-        setLabelsSelected([]);
+        setToDoLabel({});
+        setDoingLabel({});
+        setDoneLabel({});
         setViewCharts(false);
     };
 
-    const handleChangeLabels = (value) => {
+    const handleChangeToDoLabel = (value) => {
+        console.log(value);
         if (value)
-            setLabelsSelected(value);
+            setToDoLabel(value);
         else
-            setLabelsSelected([]);
+            setToDoLabel([]);
+    };
+
+    const handleChangeDoingLabel = (value) => {
+        if (value)
+            setDoingLabel(value);
+        else
+            setDoingLabel([]);
+    };
+
+    const handleChangeDoneLabel = (value) => {
+        if (value)
+            setDoneLabel(value);
+        else
+            setDoneLabel([]);
     };
 
     const handleChangeMilestone = (value) => {
@@ -136,7 +159,7 @@ const Home = (props) => {
             async function fetchData() {
                 try {
                     let someIssues = await RequestGitLab.fetchIssues(AuthService.getCurrentUser(), project, value);
-                    someIssues = await SortUtility.sortIssues(someIssues, project, labelsSelected);
+                    someIssues = await SortUtility.sortIssues(someIssues, project, doingLabel, doneLabel);
                     setIssues(someIssues);
                 } catch (error) {
                     setAlert({ severity: 'error', message: error.message });
@@ -153,10 +176,10 @@ const Home = (props) => {
 
     const handleSetDataChart = async () => {
         setOpenProgress(true);
-        SettingsService.saveLastSettings(group, project, labelsSelected, milestone);
+        SettingsService.saveLastSettings(group, project, toDoLabel, doingLabel, doneLabel, milestone);
         setDataColumnChart(ColumnChartUtility.handleSetDataColumnChart(issues));
         setDataLineChart(LineChartUtility.handleSetDataLineChart(issues));
-        setDataAreaChart(await AreaChartUtility.handleSetDataAreaChart(issues, project, labelsSelected));
+        setDataAreaChart(await AreaChartUtility.handleSetDataAreaChart(issues, project, toDoLabel, doingLabel, doneLabel));
         setOpenProgress(false);
         setViewCharts(true);
     }
@@ -166,7 +189,9 @@ const Home = (props) => {
         let settings = SettingsService.getLastSettings();
         await handleChangeGroup(settings.group);
         await handleChangeProject(settings.project);
-        await handleChangeLabels(settings.labels);
+        await handleChangeToDoLabel(settings.labels.todo);
+        await handleChangeDoingLabel(settings.labels.doing);
+        await handleChangeDoneLabel(settings.labels.done);
         //await handleChangeMilestone(settings.milestone);
         setOpenProgress(false);
     }
@@ -187,9 +212,9 @@ const Home = (props) => {
                 <Button color='secondary' onClick={() => handleUseLastSettings()}>Use last config</Button>
 
                 <FormControl className={classes.formControl}>
-                    <InputLabel color='secondary' id="group-input">Group</InputLabel>
+                    <InputLabel color='secondary' id='group-input'>Group</InputLabel>
                     <Select
-                        id="group-select"
+                        id='group-select'
                         color='secondary'
                         value={group}
                         onChange={event => handleChangeGroup(event.target.value)}
@@ -200,9 +225,9 @@ const Home = (props) => {
                 </FormControl>
 
                 <FormControl className={classes.formControl}>
-                    <InputLabel color='secondary' id="project-input">Project</InputLabel>
+                    <InputLabel color='secondary' id='project-input'>Project</InputLabel>
                     <Select
-                        id="project-select"
+                        id='project-select'
                         color='secondary'
                         value={project}
                         onChange={event => handleChangeProject(event.target.value)}
@@ -214,44 +239,14 @@ const Home = (props) => {
                     </Select>
                 </FormControl>
 
-                {/*<FormControl className={classes.formControl}>
-                    <Autocomplete
-                        multiple
-                        id="tags-standard"
-                        options={labels}
-                        getOptionLabel={(option) => option.name}
-                        renderTags={(value) =>
-                            value.map((aLabel) => (
-                                <Chip key={aLabel.id} label={aLabel.name} style={{ backgroundColor: aLabel.color }} className={classes.chip} />
-                            ))
-                        }
-                        renderInput={(params) => (
-                            <TextField
-                                {...params}
-                                variant="standard"
-                                label="Labels"
-                                placeholder="Select 3 labels"
-                            />
-                        )}
-                    />
-                        </FormControl>*/}
-
                 <FormControl className={classes.formControl}>
-                    <InputLabel color='secondary' id="labels-input">Labels</InputLabel>
+                    <InputLabel color='secondary' id="labels-input">To Do Label</InputLabel>
                     <Select
                         id="labels-select"
                         color='secondary'
-                        multiple
-                        value={labelsSelected}
-                        onChange={event => handleChangeLabels(event.target.value)}
+                        value={toDoLabel}
+                        onChange={event => handleChangeToDoLabel(event.target.value)}
                         input={<Input id="select-multiple-chip" />}
-                        renderValue={(selected) => (
-                            <div className={classes.chips}>
-                                {selected.map((value) => (
-                                    <Chip key={value.id} label={value.name} style={{ backgroundColor: value.color }} className={classes.chip} />
-                                ))}
-                            </div>
-                        )}
                     >
                         <MenuItem value={null}>-</MenuItem>
                         {labels.map((aLabel) => (
@@ -263,9 +258,132 @@ const Home = (props) => {
                 </FormControl>
 
                 <FormControl className={classes.formControl}>
-                    <InputLabel color='secondary' id="milestone-input">Milestone</InputLabel>
+                    <InputLabel color='secondary' id="labels-input">Doing Label</InputLabel>
                     <Select
-                        id="milestone-select"
+                        id="labels-select"
+                        color='secondary'
+                        value={doingLabel}
+                        onChange={event => handleChangeDoingLabel(event.target.value)}
+                        input={<Input id="select-multiple-chip" />}
+                    >
+                        <MenuItem value={null}>-</MenuItem>
+                        {labels.map((aLabel) => (
+                            <MenuItem key={aLabel.id} value={aLabel}>
+                                <Chip key={aLabel.id} label={aLabel.name} style={{ backgroundColor: aLabel.color }} className={classes.chip} />
+                            </MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
+
+                <FormControl className={classes.formControl}>
+                    <InputLabel color='secondary' id="labels-input">Done Label</InputLabel>
+                    <Select
+                        id="labels-select"
+                        color='secondary'
+                        value={doneLabel}
+                        onChange={event => handleChangeDoneLabel(event.target.value)}
+                        input={<Input id="select-multiple-chip" />}
+                    >
+                        <MenuItem value={null}>-</MenuItem>
+                        {labels.map((aLabel) => (
+                            <MenuItem key={aLabel.id} value={aLabel}>
+                                <Chip key={aLabel.id} label={aLabel.name} style={{ backgroundColor: aLabel.color }} className={classes.chip} />
+                            </MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
+
+                {/*<FormControl className={classes.formControl}>
+                    <Autocomplete
+                        id='todolabel-autocomplete'
+                        multiple
+                        options={labels}
+                        getOptionLabel={(option) => option.name}
+                        onChange={(e, v) => { handleChangeToDoLabel(v) }}
+                        freeSolo={toDoLabel.length > 0 ? true : false}
+                        getOptionDisabled={(options) => (toDoLabel.length > 0 ? true : false)}
+                        renderTags={(tagValue, getTagProps) => {
+                            return tagValue.map((option, index) => (
+                                <Chip {...getTagProps({ index })} key={option.id} label={option.name} style={{ backgroundColor: option.color }} className={classes.chip} />
+                            ));
+                        }}
+                        renderOption={(option) =>
+                            <Chip key={option.id} label={option.name} style={{ backgroundColor: option.color }} className={classes.chip} />
+                        }
+                        renderInput={(params) => (
+                            <TextField
+                                {...params}
+                                color='secondary'
+                                variant='standard'
+                                label='To Do Label'
+                                placeholder={toDoLabel.length > 0 ? '' : 'Select a label'}
+                            />
+                        )}
+                    />
+                </FormControl>
+
+                <FormControl className={classes.formControl}>
+                    <Autocomplete
+                        id='doinglabel-autocomplete'
+                        multiple
+                        options={labels}
+                        getOptionLabel={(option) => option.name}
+                        onChange={(e, v) => { handleChangeDoingLabel(v) }}
+                        freeSolo={doingLabel.length > 0 ? true : false}
+                        getOptionDisabled={(options) => (doingLabel.length > 0 ? true : false)}
+                        renderTags={(tagValue, getTagProps) => {
+                            return tagValue.map((option, index) => (
+                                <Chip {...getTagProps({ index })} key={option.id} label={option.name} style={{ backgroundColor: option.color }} className={classes.chip} />
+                            ));
+                        }}
+                        renderOption={(option) =>
+                            <Chip key={option.id} label={option.name} style={{ backgroundColor: option.color }} className={classes.chip} />
+                        }
+                        renderInput={(params) => (
+                            <TextField
+                                {...params}
+                                color='secondary'
+                                variant='standard'
+                                label='Doing Label'
+                                placeholder={doingLabel.length > 0 ? '' : 'Select a label'}
+                            />
+                        )}
+                    />
+                </FormControl>
+
+                <FormControl className={classes.formControl}>
+                    <Autocomplete
+                        id='donelabel-autocomplete'
+                        multiple
+                        options={labels}
+                        getOptionLabel={(option) => option.name}
+                        onChange={(e, v) => { handleChangeDoneLabel(v) }}
+                        freeSolo={doneLabel.length > 0 ? true : false}
+                        getOptionDisabled={(options) => (doneLabel.length > 0 ? true : false)}
+                        renderTags={(tagValue, getTagProps) => {
+                            return tagValue.map((option, index) => (
+                                <Chip {...getTagProps({ index })} key={option.id} label={option.name} style={{ backgroundColor: option.color }} className={classes.chip} />
+                            ));
+                        }}
+                        renderOption={(option) =>
+                            <Chip key={option.id} label={option.name} style={{ backgroundColor: option.color }} className={classes.chip} />
+                        }
+                        renderInput={(params) => (
+                            <TextField
+                                {...params}
+                                color='secondary'
+                                variant='standard'
+                                label='Done Label'
+                                placeholder={doneLabel.length > 0 ? '' : 'Select a label'}
+                            />
+                        )}
+                    />
+                </FormControl>*/}
+
+                <FormControl className={classes.formControl}>
+                    <InputLabel color='secondary' id='milestone-input'>Milestone</InputLabel>
+                    <Select
+                        id='milestone-select'
                         color='secondary'
                         value={milestone}
                         onChange={event => handleChangeMilestone(event.target.value)}
@@ -278,7 +396,7 @@ const Home = (props) => {
                 </FormControl>
 
                 <Button variant='contained' color='secondary' onClick={() => handleSetDataChart()}
-                    disabled={!milestone || labelsSelected.length === 0 || !project || !group}>
+                    disabled={!milestone || !toDoLabel || !doingLabel || !doneLabel || !project || !group}>
                     Generate Charts
                 </Button>
             </div >
@@ -287,9 +405,9 @@ const Home = (props) => {
                     <div className={classes.charts
                     } >
                         <Chart
-                            width="100%"
-                            height="400px"
-                            chartType="ColumnChart"
+                            width='100%'
+                            height='400px'
+                            chartType='ColumnChart'
                             loader={<div>Loading Chart</div>}
                             data={dataColumnChart}
                             options={{
@@ -321,7 +439,7 @@ const Home = (props) => {
                         <Chart
                             width='100%'
                             height='400px'
-                            chartType="LineChart"
+                            chartType='LineChart'
                             loader={<div>Loading Chart</div>}
                             data={dataLineChart}
                             options={{
@@ -355,7 +473,7 @@ const Home = (props) => {
                         <Chart
                             width='100%'
                             height='400px'
-                            chartType="AreaChart"
+                            chartType='AreaChart'
                             loader={<div>Loading Chart</div>}
                             data={dataAreaChart}
                             options={{
@@ -390,7 +508,7 @@ const Home = (props) => {
                     : <div />
             }
             <Backdrop className={classes.backdrop} open={openProgress} >
-                <CircularProgress color="inherit" />
+                <CircularProgress color='inherit' />
             </Backdrop>
             {
                 alert.severity ?
