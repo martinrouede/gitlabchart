@@ -5,10 +5,15 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: 'center',
         textAlign: 'center',
         display: 'grid',
-        },
+    },
+    gitlabLogo: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
     form: {
         display: 'grid',
-        marginTop: theme.spacing(20),
+        marginTop: theme.spacing(4),
     },
     formControl: {
         marginTop: theme.spacing(1),
@@ -23,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
     getToken: {
         textAlign: 'center',
         fontSize: '1.5em',
-        marginTop: theme.spacing(5),
+        marginTop: theme.spacing(4),
         marginBottom: theme.spacing(4),
         color: 'secondary'
     }

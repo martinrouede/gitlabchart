@@ -25,6 +25,7 @@ import { faSun } from '@fortawesome/free-solid-svg-icons';
 import { faMoon } from '@fortawesome/free-solid-svg-icons';
 
 import Styles from './Styles';
+import GitLabChartLogo from '../../logo/GitLabChart-icon.png';
 import AuthService from '../../services/auth.service';
 import RequestGitLab from '../../services/request.gitlab.service';
 import ThemeService from '../../services/theme.service';
@@ -104,6 +105,8 @@ const DrawerBar = params => {
                     <IconButton onClick={handleDrawerClose}>
                         {theme.direction === 'rtl' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
                     </IconButton>
+
+                    <img src={GitLabChartLogo} className={classes.gitLabChartLogo} alt='GitLab Chart Logo'/>
                 </div>
                 <Divider />
                 {window.location.pathname !== '/login' ?
@@ -119,16 +122,21 @@ const DrawerBar = params => {
                 <Divider />
                 <List>
                     <ListItem button>
-                        <span>
-                            <FontAwesomeIcon icon={faSun} style={{ fontSize: '1.5em' }} />
-                            <SwitchLabel checked={params.themeMode} onChange={handleChange} />
-                            <FontAwesomeIcon icon={faMoon} style={{ fontSize: '1.5em' }} />
-                        </span>
+                        <ListItemIcon>
+                            <span>
+                                <FontAwesomeIcon icon={faSun} style={{ fontSize: '1.5em' }} />
+                                <SwitchLabel checked={params.themeMode} onChange={handleChange} />
+                                <FontAwesomeIcon icon={faMoon} style={{ fontSize: '1.5em' }} />
+                            </span>
+                        </ListItemIcon>
+                        <ListItemText style={{ textAlign: 'right' }} primary='Switch Mode' />
                     </ListItem>
                     {window.location.pathname !== '/login' ?
                         <ListItem button>
-                            <ListItemIcon className={classes.buttonLogout} onClick={() => AuthService.logout()}><FontAwesomeIcon icon={faSignOutAlt} /></ListItemIcon>
-                            <ListItemText primary='Sign out' />
+                            <ListItemIcon className={classes.buttonLogout} onClick={() => AuthService.logout()}>
+                                <FontAwesomeIcon icon={faSignOutAlt} />
+                            </ListItemIcon>
+                            <ListItemText style={{ textAlign: 'right' }} primary='Sign Out' />
                         </ListItem>
                         : <div />
                     }

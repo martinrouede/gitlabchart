@@ -10,10 +10,9 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import LinearProgress from '@material-ui/core/LinearProgress';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import Chip from '@material-ui/core/Chip';
-import TextField from '@material-ui/core/TextField';
-import Autocomplete from '@material-ui/lab/Autocomplete';
 import Alert from '@material-ui/lab/Alert';
 
 import RequestGitLab from '../../services/request.gitlab.service';
@@ -43,9 +42,9 @@ const Home = (props) => {
     const [group, setGroup] = useState('');
 
     const [labels, setLabels] = useState([]);
-    const [toDoLabel, setToDoLabel] = useState({});
-    const [doingLabel, setDoingLabel] = useState({});
-    const [doneLabel, setDoneLabel] = useState({});
+    const [toDoLabel, setToDoLabel] = useState('');
+    const [doingLabel, setDoingLabel] = useState('');
+    const [doneLabel, setDoneLabel] = useState('');
 
     const [issues, setIssues] = useState([]);
 
@@ -88,9 +87,9 @@ const Home = (props) => {
         setMilestone('');
         setIssues([]);
         setLabels([]);
-        setToDoLabel({});
-        setDoingLabel({});
-        setDoneLabel({});
+        setToDoLabel('');
+        setDoingLabel('');
+        setDoneLabel('');
         setViewCharts(false);
     };
 
@@ -125,32 +124,31 @@ const Home = (props) => {
         setMilestone('');
         setIssues([]);
         setLabels([]);
-        setToDoLabel({});
-        setDoingLabel({});
-        setDoneLabel({});
+        setToDoLabel('');
+        setDoingLabel('');
+        setDoneLabel('');
         setViewCharts(false);
     };
 
     const handleChangeToDoLabel = (value) => {
-        console.log(value);
         if (value)
             setToDoLabel(value);
         else
-            setToDoLabel([]);
+            setToDoLabel('');
     };
 
     const handleChangeDoingLabel = (value) => {
         if (value)
             setDoingLabel(value);
         else
-            setDoingLabel([]);
+            setDoingLabel('');
     };
 
     const handleChangeDoneLabel = (value) => {
         if (value)
             setDoneLabel(value);
         else
-            setDoneLabel([]);
+            setDoneLabel('');
     };
 
     const handleChangeMilestone = (value) => {
@@ -239,13 +237,13 @@ const Home = (props) => {
                 </FormControl>
 
                 <FormControl className={classes.formControl}>
-                    <InputLabel color='secondary' id="labels-input">To Do Label</InputLabel>
+                    <InputLabel color='secondary' id="todo-label-input">To Do Label</InputLabel>
                     <Select
-                        id="labels-select"
+                        id="todo-label-select"
                         color='secondary'
                         value={toDoLabel}
                         onChange={event => handleChangeToDoLabel(event.target.value)}
-                        input={<Input id="select-multiple-chip" />}
+                        input={<Input id="select-label-todo-chip" />}
                     >
                         <MenuItem value={null}>-</MenuItem>
                         {labels.map((aLabel) => (
@@ -257,13 +255,13 @@ const Home = (props) => {
                 </FormControl>
 
                 <FormControl className={classes.formControl}>
-                    <InputLabel color='secondary' id="labels-input">Doing Label</InputLabel>
+                    <InputLabel color='secondary' id="doing-label-input">Doing Label</InputLabel>
                     <Select
-                        id="labels-select"
+                        id="doing-label-select"
                         color='secondary'
                         value={doingLabel}
                         onChange={event => handleChangeDoingLabel(event.target.value)}
-                        input={<Input id="select-multiple-chip" />}
+                        input={<Input id="select-label-doing-chip" />}
                     >
                         <MenuItem value={null}>-</MenuItem>
                         {labels.map((aLabel) => (
@@ -275,13 +273,13 @@ const Home = (props) => {
                 </FormControl>
 
                 <FormControl className={classes.formControl}>
-                    <InputLabel color='secondary' id="labels-input">Done Label</InputLabel>
+                    <InputLabel color='secondary' id="done-label-input">Done Label</InputLabel>
                     <Select
-                        id="labels-select"
+                        id="done-label-select"
                         color='secondary'
                         value={doneLabel}
                         onChange={event => handleChangeDoneLabel(event.target.value)}
-                        input={<Input id="select-multiple-chip" />}
+                        input={<Input id="select-label-done-chip" />}
                     >
                         <MenuItem value={null}>-</MenuItem>
                         {labels.map((aLabel) => (
@@ -328,7 +326,7 @@ const Home = (props) => {
                             width='100%'
                             height='400px'
                             chartType='ColumnChart'
-                            loader={<div>Loading Chart</div>}
+                            loader={<LinearProgress />}
                             data={dataColumnChart}
                             options={{
                                 title: 'Comparative Issues Chart',
@@ -360,7 +358,7 @@ const Home = (props) => {
                             width='100%'
                             height='400px'
                             chartType='LineChart'
-                            loader={<div>Loading Chart</div>}
+                            loader={<LinearProgress />}
                             data={dataLineChart}
                             options={{
                                 title: 'Burndown Chart',
@@ -394,7 +392,7 @@ const Home = (props) => {
                             width='100%'
                             height='400px'
                             chartType='AreaChart'
-                            loader={<div>Loading Chart</div>}
+                            loader={<LinearProgress />}
                             data={dataAreaChart}
                             options={{
                                 isStacked: true,

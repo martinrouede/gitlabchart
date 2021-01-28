@@ -44,7 +44,7 @@ const Login = (props) => {
     return (
         <div className={classes.root}>
             <Tooltip placement='bottom-end' title='This logo was created 100% in CSS. See more details in src/logo/GitLabLogo.css'>
-                <div><GitLabLogo /></div>
+                <div className={classes.gitlabLogo}><GitLabLogo /></div>
             </Tooltip>
 
             <div className={classes.form}>
@@ -107,7 +107,6 @@ const Login = (props) => {
                     </Link>
                 </div>
             </div>
-
 
         </div>
     );

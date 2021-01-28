@@ -72,11 +72,24 @@ const useStyles = makeStyles((theme) => ({
         height: '50px'
     },
     avatarLess: {
+        display: 'flex',
+        alignItems: 'center',
         justifyContent: 'center',
+        marginLeft: theme.spacing(12),
         marginTop: theme.spacing(2),
         marginBottom: theme.spacing(2),
         width: '50px',
         height: '50px'
+    },
+    gitLabChartLogo: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginLeft: theme.spacing(3),
+        marginTop: theme.spacing(2),
+        marginBottom: theme.spacing(2),
+        width: '80px',
+        height: '80px',
     }
 }));
 

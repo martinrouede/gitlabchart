@@ -1,6 +1,12 @@
 /* RED = #e24329, ORANGE = #ef6d27, YELLOW = #f2a327 */
 
-#triangle-medium {
+div#container-logo {
+    position: relative;
+    height: 150px;
+    width: 160px;
+}
+
+div#triangle-medium {
     position: absolute;
     margin-top: 60px;
     margin-left: 10px;
@@ -9,7 +15,7 @@
     border-top: 90px solid #ef6d27;
 }
 
-#triangle-center {
+div#triangle-center {
     position: absolute;
     margin-top: 60px;
     margin-left: 50px;
@@ -18,7 +24,7 @@
     border-top: 90px solid #e24329;
 }
 
-#triangle-width {
+div#triangle-width {
     position: absolute;
     margin-top: 90px;
     border-bottom: 10px;
@@ -27,7 +33,7 @@
     border-top: 60px solid #f2a327;
 }
 
-#triangle-width-left {
+div#triangle-width-left {
     position: absolute;
     margin-top: 60px;
     border-left: 10px solid transparent;
@@ -35,7 +41,7 @@
     border-bottom: 30px solid #f2a327;
 }
 
-#triangle-width-rigth {
+div#triangle-width-rigth {
     position: absolute;
     margin-top: 60px;
     margin-left: 100px;
@@ -44,7 +50,7 @@
     border-bottom: 30px solid #f2a327;
 }
 
-#triangle-up-left {
+div#triangle-up-left {
     position: absolute;
     margin-left: 10px;
     border-left: 20px solid transparent;
@@ -52,7 +58,7 @@
     border-bottom: 60px solid #e24329;
 }
 
-#triangle-up-rigth {
+div#triangle-up-rigth {
     position: absolute;
     margin-left: 110px;
     border-radius: 5px 5px, 5px, 10px;
