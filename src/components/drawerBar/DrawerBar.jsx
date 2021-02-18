@@ -61,6 +61,10 @@ const DrawerBar = params => {
         setOpen(false);
     };
 
+    const handleOpenLogo = () => {
+        
+    }
+
     return (
         <div className={classes.root}>
             <CssBaseline />
@@ -106,7 +110,7 @@ const DrawerBar = params => {
                         {theme.direction === 'rtl' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
                     </IconButton>
 
-                    <img src={GitLabChartLogo} className={classes.gitLabChartLogo} alt='GitLab Chart Logo'/>
+                    <img src={GitLabChartLogo} className={classes.gitLabChartLogo} onClick={handleOpenLogo} alt='GitLab Chart Logo'/>
                 </div>
                 <Divider />
                 {window.location.pathname !== '/login' ?
