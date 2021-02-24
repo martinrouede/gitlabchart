@@ -36,7 +36,7 @@ const App = (props) => {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Router>
-          <DrawerBar themeMode={themeMode} setThemeMode={setThemeMode}/>
+          <DrawerBar themeMode={themeMode} setThemeMode={setThemeMode} />
 
           <ConfigAxios />
 
@@ -45,7 +45,7 @@ const App = (props) => {
             <PrivateRoute exact path={['/', '/home']} component={Home} />
           </Switch>
 
-         <Contact />
+          <Contact />
 
         </Router>
       </ThemeProvider>

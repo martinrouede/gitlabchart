@@ -24,7 +24,7 @@ import AreaChartUtility from '../../utilities/chart.area.utility';
 import SortUtility from '../../utilities/sort.utility';
 import Styles from './Home';
 
-const Home = (props) => {
+const Home = () => {
     const classes = Styles.useStyles();
     const theme = useTheme();
 

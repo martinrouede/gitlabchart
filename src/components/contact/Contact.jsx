@@ -8,7 +8,7 @@ import { faGithub } from '@fortawesome/free-brands-svg-icons';
 
 import Styles from './Contact';
 
-const Contact = (props) => {
+const Contact = () => {
 
     const classes = Styles.useStyles();
 
