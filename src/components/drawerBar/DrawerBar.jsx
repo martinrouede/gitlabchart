@@ -24,7 +24,7 @@ import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import { faSun } from '@fortawesome/free-solid-svg-icons';
 import { faMoon } from '@fortawesome/free-solid-svg-icons';
 
-import Styles from './Styles';
+import Styles from './DrawerBar';
 import GitLabChartLogo from '../../logo/GitLabChart-icon.png';
 import AuthService from '../../services/auth.service';
 import RequestGitLab from '../../services/request.gitlab.service';

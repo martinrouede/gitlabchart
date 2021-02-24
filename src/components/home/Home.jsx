@@ -22,7 +22,7 @@ import ColumnChartUtility from '../../utilities/chart.column.utility';
 import LineChartUtility from '../../utilities/chart.line.utility';
 import AreaChartUtility from '../../utilities/chart.area.utility';
 import SortUtility from '../../utilities/sort.utility';
-import Styles from './Styles';
+import Styles from './Home';
 
 const Home = (props) => {
     const classes = Styles.useStyles();

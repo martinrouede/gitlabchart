@@ -17,7 +17,7 @@ import { faSignInAlt } from '@fortawesome/free-solid-svg-icons';
 
 import AuthService from '../../services/auth.service';
 import GitLabLogo from '../../logo/GitLabLogo';
-import Styles from './Styles';
+import Styles from './Login';
 
 const Login = (props) => {
     const classes = Styles.useStyles();
