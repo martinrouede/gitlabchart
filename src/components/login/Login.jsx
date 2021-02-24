@@ -38,7 +38,7 @@ const Login = (props) => {
 
     const saveConfig = () => {
         AuthService.login(serverUrl, privateToken);
-        props.history.push('/');
+        window.location.reload();
     }
 
     return (

@@ -9,14 +9,17 @@ import Home from './components/home/Home';
 import Contact from './components/contact/Contact';
 import DrawerBar from './components/drawerBar/DrawerBar';
 import Login from './components/login/Login';
-import PrivateRoute from './components/PrivateRoute';
 import ConfigAxios from './midlewares/axios';
 import ThemeService from './services/theme.service';
+import AuthService from './services/auth.service';
 
 const App = (props) => {
   const classes = Styles.useStyles();
 
   const [themeMode, setThemeMode] = useState(ThemeService.getTheme() ? ThemeService.getTheme().darkMode : false);
+  const [user, setUser] = useState({});
+
+  const isLoggedIn = AuthService.isAuthenticated()
 
   const theme = React.useMemo(
     () =>
@@ -36,13 +39,16 @@ const App = (props) => {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Router>
-          <DrawerBar themeMode={themeMode} setThemeMode={setThemeMode} />
+          <DrawerBar themeMode={themeMode} setThemeMode={setThemeMode} user={user} setUser={setUser} isLoggedIn={isLoggedIn} />
 
           <ConfigAxios />
 
           <Switch>
-            <Route exact path='/login' component={Login} />
-            <PrivateRoute exact path={['/', '/home']} component={Home} />
+
+            <Route exact path="/">
+              {isLoggedIn ? <Home setUser={setUser} /> : <Login />}
+            </Route>
+
           </Switch>
 
           <Contact />

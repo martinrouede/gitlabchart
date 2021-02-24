@@ -24,7 +24,7 @@ import AreaChartUtility from '../../utilities/chart.area.utility';
 import SortUtility from '../../utilities/sort.utility';
 import Styles from './Home';
 
-const Home = () => {
+const Home = (props) => {
     const classes = Styles.useStyles();
     const theme = useTheme();
 
@@ -52,10 +52,14 @@ const Home = () => {
     const [dataLineChart, setDataLineChart] = useState([]);
     const [dataAreaChart, setDataAreaChart] = useState([]);
 
+    const currentUser = AuthService.getCurrentUser();
+
     useEffect(() => {
         async function fetchData() {
             try {
-                let someGroups = await RequestGitLab.fetchGroups(AuthService.getCurrentUser());
+                props.setUser(await RequestGitLab.fetchMyUser(currentUser));
+
+                let someGroups = await RequestGitLab.fetchGroups(currentUser);
                 someGroups = await SortUtility.sortGroups(someGroups);
                 setGroups(someGroups);
             } catch (error) {
@@ -70,7 +74,7 @@ const Home = () => {
             setGroup(value);
             async function fetchData() {
                 try {
-                    let response = await RequestGitLab.fetchProjects(AuthService.getCurrentUser(), value);
+                    let response = await RequestGitLab.fetchProjects(currentUser, value);
                     setProjects(response);
                 } catch (error) {
                     setAlert({ severity: 'error', message: error.message });
@@ -98,13 +102,13 @@ const Home = () => {
             setProject(value);
             async function fetchData() {
                 try {
-                    let someMilestones = await RequestGitLab.fetchMilestones(AuthService.getCurrentUser(), value);
+                    let someMilestones = await RequestGitLab.fetchMilestones(currentUser, value);
                     setMilestones(someMilestones);
                     var amountLabels = 0;
                     var page = 1;
                     var labelsAux = [];
                     while (amountLabels === 20 || amountLabels === 0) {
-                        let someLabels = await RequestGitLab.fetchLabels(AuthService.getCurrentUser(), value, page);
+                        let someLabels = await RequestGitLab.fetchLabels(currentUser, value, page);
                         labelsAux = labelsAux.concat(someLabels);
                         amountLabels = someLabels.length;
                         page++;
@@ -156,7 +160,7 @@ const Home = () => {
         if (value) {
             async function fetchData() {
                 try {
-                    let someIssues = await RequestGitLab.fetchIssues(AuthService.getCurrentUser(), project, value);
+                    let someIssues = await RequestGitLab.fetchIssues(currentUser, project, value);
                     someIssues = await SortUtility.sortIssues(someIssues, project, doingLabel, doneLabel);
                     setIssues(someIssues);
                 } catch (error) {

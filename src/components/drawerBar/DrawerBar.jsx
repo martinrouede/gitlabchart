@@ -27,30 +27,17 @@ import { faMoon } from '@fortawesome/free-solid-svg-icons';
 import Styles from './DrawerBar';
 import GitLabChartLogo from '../../logo/GitLabChart-icon.png';
 import AuthService from '../../services/auth.service';
-import RequestGitLab from '../../services/request.gitlab.service';
 import ThemeService from '../../services/theme.service';
 
-const DrawerBar = params => {
+const DrawerBar = (props) => {
 
     const classes = Styles.useStyles();
     const theme = useTheme();
     const [open, setOpen] = useState(false);
 
-    const [user, setUser] = useState({});
-
-    useEffect(() => {
-        async function fetchData() {
-            if (AuthService.getCurrentUser())
-                setUser(await RequestGitLab.fetchMyUser(AuthService.getCurrentUser()));
-            else
-                setUser({});
-        }
-        fetchData();
-    }, [window.location.pathname]);
-
     const handleChange = () => {
-        ThemeService.setTheme(!params.themeMode);
-        params.setThemeMode(ThemeService.getTheme().darkMode);
+        ThemeService.setTheme(!props.themeMode);
+        props.setThemeMode(ThemeService.getTheme().darkMode);
     };
 
     const handleDrawerOpen = () => {
@@ -60,10 +47,6 @@ const DrawerBar = params => {
     const handleDrawerClose = () => {
         setOpen(false);
     };
-
-    const handleOpenLogo = () => {
-        
-    }
 
     return (
         <div className={classes.root}>
@@ -110,14 +93,14 @@ const DrawerBar = params => {
                         {theme.direction === 'rtl' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
                     </IconButton>
 
-                    <img src={GitLabChartLogo} className={classes.gitLabChartLogo} onClick={handleOpenLogo} alt='GitLab Chart Logo'/>
+                    <img src={GitLabChartLogo} className={classes.gitLabChartLogo} alt='GitLab Chart Logo'/>
                 </div>
                 <Divider />
-                {window.location.pathname !== '/login' ?
-                    <Link href={user.web_url}>
+                {props.isLoggedIn ?
+                    <Link href={props.user.web_url}>
                         <img
                             className={classes.avatar}
-                            src={user.avatar_url}
+                            src={props.user.avatar_url}
                             alt='user avatar'
                         />
                     </Link>
@@ -129,13 +112,13 @@ const DrawerBar = params => {
                         <ListItemIcon>
                             <span>
                                 <FontAwesomeIcon icon={faSun} style={{ fontSize: '1.5em' }} />
-                                <SwitchLabel checked={params.themeMode} onChange={handleChange} />
+                                <SwitchLabel checked={props.themeMode} onChange={handleChange} />
                                 <FontAwesomeIcon icon={faMoon} style={{ fontSize: '1.5em' }} />
                             </span>
                         </ListItemIcon>
                         <ListItemText style={{ textAlign: 'right' }} primary='Switch Mode' />
                     </ListItem>
-                    {window.location.pathname !== '/login' ?
+                    {props.isLoggedIn ?
                         <ListItem button>
                             <ListItemIcon className={classes.buttonLogout} onClick={() => AuthService.logout()}>
                                 <FontAwesomeIcon icon={faSignOutAlt} />
