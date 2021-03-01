@@ -1,22 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { Chart } from 'react-google-charts';
 
 import { useTheme } from '@material-ui/core/styles';
-import Select from '@material-ui/core/Select';
-import FormControl from '@material-ui/core/FormControl';
-import Button from '@material-ui/core/Button';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import LinearProgress from '@material-ui/core/LinearProgress';
-import ListSubheader from '@material-ui/core/ListSubheader';
-import Chip from '@material-ui/core/Chip';
 import Alert from '@material-ui/lab/Alert';
 
+import ColumnChart from '../charts/ColumnChart';
+import LineChart from '../charts/LineChart';
+import AreaChart from '../charts/AreaChart';
+import Options from '../options/Options';
 import RequestGitLab from '../../services/request.gitlab.service';
-import AuthService from '../../services/auth.service';
+import AuthServivice from '../../services/auth.service';
 import SettingsService from '../../services/settings.service';
 import ColumnChartUtility from '../../utilities/chart.column.utility';
 import LineChartUtility from '../../utilities/chart.line.utility';
@@ -52,7 +46,7 @@ const Home = (props) => {
     const [dataLineChart, setDataLineChart] = useState([]);
     const [dataAreaChart, setDataAreaChart] = useState([]);
 
-    const currentUser = currentUser;
+    const currentUser = AuthServivice.getCurrentUser();
 
     useEffect(() => {
         async function fetchData() {
@@ -198,234 +192,36 @@ const Home = (props) => {
         setOpenProgress(false);
     }
 
-    const renderSelectGroup = group => {
-        const children = group.children.map(aChild => {
-            return (
-                <MenuItem key={aChild.id} value={aChild.id}>{aChild.full_name}</MenuItem>
-            );
-        });
-        return [<ListSubheader style={{ pointerEvents: 'none' }} >{group.full_name}</ListSubheader>, children];
-    };
+    const options = {
+        groups: groups,
+        group: group,
+        handleChangeGroup: handleChangeGroup,
+        projects: projects,
+        project: project,
+        handleChangeProject: handleChangeProject,
+        labels: labels,
+        toDoLabel: toDoLabel,
+        handleChangeToDoLabel: handleChangeToDoLabel,
+        doingLabel: doingLabel,
+        handleChangeDoingLabel: handleChangeDoingLabel,
+        doneLabel: doneLabel,
+        handleChangeDoneLabel: handleChangeDoneLabel,
+        milestones: milestones,
+        milestone: milestone,
+        handleChangeMilestone: handleChangeMilestone,
+        handleSetDataChart: handleSetDataChart,
+        handleUseLastSettings: handleUseLastSettings
+    }
 
     return (
         <div className={classes.root}>
-
-            <div className={classes.options}>
-
-                <FormControl className={classes.formControl}>
-                    <InputLabel color='secondary' id='group-input'>Group</InputLabel>
-                    <Select
-                        id='group-select'
-                        color='secondary'
-                        value={group}
-                        onChange={event => handleChangeGroup(event.target.value)}
-                    >
-                        <MenuItem value={null}>-</MenuItem>
-                        {groups.map(aGroup => renderSelectGroup(aGroup))}
-                    </Select>
-                </FormControl>
-
-                <FormControl className={classes.formControl}>
-                    <InputLabel color='secondary' id='project-input'>Project</InputLabel>
-                    <Select
-                        id='project-select'
-                        color='secondary'
-                        value={project}
-                        onChange={event => handleChangeProject(event.target.value)}
-                    >
-                        <MenuItem value={null}>-</MenuItem>
-                        {projects.map((aProject) => (
-                            <MenuItem key={aProject.id} value={aProject.id}>{aProject.name}</MenuItem>
-                        ))}
-                    </Select>
-                </FormControl>
-
-                <FormControl className={classes.formControl}>
-                    <InputLabel color='secondary' id="todo-label-input">To Do Label</InputLabel>
-                    <Select
-                        id="todo-label-select"
-                        color='secondary'
-                        value={toDoLabel}
-                        onChange={event => handleChangeToDoLabel(event.target.value)}
-                        input={<Input id="select-label-todo-chip" />}
-                    >
-                        <MenuItem value={null}>-</MenuItem>
-                        {labels.map((aLabel) => (
-                            <MenuItem key={aLabel.id} value={aLabel}>
-                                <Chip key={aLabel.id} label={aLabel.name} style={{ backgroundColor: aLabel.color }} className={classes.chip} />
-                            </MenuItem>
-                        ))}
-                    </Select>
-                </FormControl>
-
-                <FormControl className={classes.formControl}>
-                    <InputLabel color='secondary' id="doing-label-input">Doing Label</InputLabel>
-                    <Select
-                        id="doing-label-select"
-                        color='secondary'
-                        value={doingLabel}
-                        onChange={event => handleChangeDoingLabel(event.target.value)}
-                        input={<Input id="select-label-doing-chip" />}
-                    >
-                        <MenuItem value={null}>-</MenuItem>
-                        {labels.map((aLabel) => (
-                            <MenuItem key={aLabel.id} value={aLabel}>
-                                <Chip key={aLabel.id} label={aLabel.name} style={{ backgroundColor: aLabel.color }} className={classes.chip} />
-                            </MenuItem>
-                        ))}
-                    </Select>
-                </FormControl>
-
-                <FormControl className={classes.formControl}>
-                    <InputLabel color='secondary' id="done-label-input">Done Label</InputLabel>
-                    <Select
-                        id="done-label-select"
-                        color='secondary'
-                        value={doneLabel}
-                        onChange={event => handleChangeDoneLabel(event.target.value)}
-                        input={<Input id="select-label-done-chip" />}
-                    >
-                        <MenuItem value={null}>-</MenuItem>
-                        {labels.map((aLabel) => (
-                            <MenuItem key={aLabel.id} value={aLabel}>
-                                <Chip key={aLabel.id} label={aLabel.name} style={{ backgroundColor: aLabel.color }} className={classes.chip} />
-                            </MenuItem>
-                        ))}
-                    </Select>
-                </FormControl>
-
-                <FormControl className={classes.formControl}>
-                    <InputLabel color='secondary' id='milestone-input'>Milestone</InputLabel>
-                    <Select
-                        id='milestone-select'
-                        color='secondary'
-                        value={milestone}
-                        onChange={event => handleChangeMilestone(event.target.value)}
-                    >
-                        <MenuItem value={null}>-</MenuItem>
-                        {milestones.map((aMilestone) => (
-                            <MenuItem key={aMilestone.id} value={aMilestone.title}>{aMilestone.title}</MenuItem>
-                        ))}
-                    </Select>
-                </FormControl>
-
-            </div >
-            <div className={classes.buttons}>
-                <FormControl className={classes.formControl}>
-                    <Button color='secondary' onClick={() => handleUseLastSettings()}>Use last config</Button>
-                </FormControl>
-
-                <FormControl className={classes.formControl}>
-                    <Button variant='contained' color='secondary' onClick={() => handleSetDataChart()}
-                        disabled={!milestone || !toDoLabel || !doingLabel || !doneLabel || !project || !group}>
-                        Generate Charts
-                    </Button>
-                </FormControl>
-            </div>
+            <Options options={options} />
             {
                 viewCharts ?
-                    <div className={classes.charts
-                    } >
-                        <Chart
-                            width='100%'
-                            height='400px'
-                            chartType='ColumnChart'
-                            loader={<LinearProgress />}
-                            data={dataColumnChart}
-                            options={{
-                                title: 'Comparative Issues Chart',
-                                titleTextStyle: { color: theme.palette.text.primary },
-                                backgroundColor: theme.palette.background.default,
-                                hAxis: {
-                                    title: 'Issues',
-                                    titleTextStyle: { color: theme.palette.text.primary },
-                                    textStyle: { color: theme.palette.text.primary },
-                                    baselineColor: { color: theme.palette.text.primary },
-                                    minValue: 0
-                                },
-                                vAxis: {
-                                    title: 'Hours',
-                                    titleTextStyle: { color: theme.palette.text.primary },
-                                    textStyle: { color: theme.palette.text.primary },
-                                    gridlines: { color: theme.palette.text.secondary },
-                                    baselineColor: { color: theme.palette.text.primary },
-                                    minValue: 0
-                                },
-                                legend: {
-                                    textStyle: { color: theme.palette.text.primary }
-                                }
-                            }}
-                            rootProps={{ 'data-testid': '1' }}
-                        />
-
-                        <Chart
-                            width='100%'
-                            height='400px'
-                            chartType='LineChart'
-                            loader={<LinearProgress />}
-                            data={dataLineChart}
-                            options={{
-                                title: 'Burndown Chart',
-                                titleTextStyle: { color: theme.palette.text.primary },
-                                backgroundColor: theme.palette.background.default,
-                                lineWidth: 5,
-                                hAxis: {
-                                    title: 'Business Days',
-                                    titleTextStyle: { color: theme.palette.text.primary },
-                                    textStyle: { color: theme.palette.text.primary },
-                                    gridlines: { color: theme.palette.text.secondary, count: dataLineChart.length },
-                                    baselineColor: { color: theme.palette.text.primary },
-                                    minValue: 0
-                                },
-                                vAxis: {
-                                    title: 'Total Hours Estimated',
-                                    titleTextStyle: { color: theme.palette.text.primary },
-                                    textStyle: { color: theme.palette.text.primary },
-                                    gridlines: { color: theme.palette.text.secondary },
-                                    baselineColor: { color: theme.palette.text.primary },
-                                    minValue: 0
-                                },
-                                legend: {
-                                    textStyle: { color: theme.palette.text.primary }
-                                }
-                            }}
-                            rootProps={{ 'data-testid': '2' }}
-                        />
-
-                        <Chart
-                            width='100%'
-                            height='400px'
-                            chartType='AreaChart'
-                            loader={<LinearProgress />}
-                            data={dataAreaChart}
-                            options={{
-                                isStacked: true,
-                                title: 'Cumulative Flow Chart',
-                                titleTextStyle: { color: theme.palette.text.primary },
-                                backgroundColor: theme.palette.background.default,
-                                lineWidth: 5,
-                                hAxis: {
-                                    title: 'Business Days',
-                                    titleTextStyle: { color: theme.palette.text.primary },
-                                    textStyle: { color: theme.palette.text.primary },
-                                    gridlines: { color: theme.palette.text.secondary, count: dataAreaChart.length },
-                                    baselineColor: { color: theme.palette.text.primary },
-                                    minValue: 0
-                                },
-                                vAxis: {
-                                    title: 'Amount of Issues',
-                                    titleTextStyle: { color: theme.palette.text.primary },
-                                    textStyle: { color: theme.palette.text.primary },
-                                    gridlines: { color: theme.palette.text.secondary },
-                                    baselineColor: { color: theme.palette.text.primary },
-                                    minValue: 0
-                                },
-                                legend: {
-                                    textStyle: { color: theme.palette.text.primary }
-                                }
-                            }}
-                            rootProps={{ 'data-testid': '3' }}
-                        />
+                    <div className={classes.charts} >
+                        <ColumnChart data={dataColumnChart} />
+                        <LineChart data={dataLineChart} />
+                        <AreaChart data={dataAreaChart} />
                     </div >
                     : <div />
             }
