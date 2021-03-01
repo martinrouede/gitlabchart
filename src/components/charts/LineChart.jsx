@@ -3,11 +3,7 @@ import { Chart } from 'react-google-charts';
 import { useTheme } from '@material-ui/core/styles';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
-import Styles from './Styles';
-
 const LineChart = (props) => {
-
-    const classes = Styles.useStyles();
 
     const theme = useTheme();
 

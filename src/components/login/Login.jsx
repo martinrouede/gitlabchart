@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import Button from '@material-ui/core/Button';
 import InputAdornment from '@material-ui/core/InputAdornment';
@@ -8,16 +8,15 @@ import Input from '@material-ui/core/Input';
 import IconButton from '@material-ui/core/IconButton';
 import Link from '@material-ui/core/Link';
 import Tooltip from '@material-ui/core/Tooltip';
-
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSignInAlt } from '@fortawesome/free-solid-svg-icons';
 
-import AuthService from '../../services/auth.service';
-import GitLabLogo from '../../logo/GitLabLogo';
 import Styles from './Styles';
+import GitLabLogo from '../../logo/GitLabLogo';
+import AuthService from '../../services/auth.service';
 
 const Login = (props) => {
     const classes = Styles.useStyles();

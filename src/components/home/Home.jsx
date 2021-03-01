@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
-import { useTheme } from '@material-ui/core/styles';
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Alert from '@material-ui/lab/Alert';
 
+import Styles from './Styles';
 import ColumnChart from '../charts/ColumnChart';
 import LineChart from '../charts/LineChart';
 import AreaChart from '../charts/AreaChart';
@@ -16,11 +16,9 @@ import ColumnChartUtility from '../../utilities/chart.column.utility';
 import LineChartUtility from '../../utilities/chart.line.utility';
 import AreaChartUtility from '../../utilities/chart.area.utility';
 import SortUtility from '../../utilities/sort.utility';
-import Styles from './Styles';
 
 const Home = (props) => {
     const classes = Styles.useStyles();
-    const theme = useTheme();
 
     const [openProgress, setOpenProgress] = useState(false);
     const [viewCharts, setViewCharts] = useState(false);

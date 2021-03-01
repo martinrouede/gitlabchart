@@ -1,5 +1,3 @@
-import React from 'react';
-
 import Link from '@material-ui/core/Link';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -7,7 +5,7 @@ import { faGithub } from '@fortawesome/free-brands-svg-icons';
 
 import Styles from './Styles';
 
-const Contact = (props) => {
+const Contact = () => {
 
     const classes = Styles.useStyles();
 

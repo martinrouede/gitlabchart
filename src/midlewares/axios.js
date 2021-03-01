@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 
 import CircularProgress from '@material-ui/core/CircularProgress';
