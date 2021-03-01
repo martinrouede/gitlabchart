@@ -168,16 +168,6 @@ const Home = (props) => {
         setViewCharts(false);
     };
 
-    const handleSetDataChart = async () => {
-        setOpenProgress(true);
-        SettingsService.saveLastSettings(group, project, toDoLabel, doingLabel, doneLabel, milestone);
-        setDataColumnChart(ColumnChartUtility.handleSetDataColumnChart(issues));
-        setDataLineChart(LineChartUtility.handleSetDataLineChart(issues));
-        setDataAreaChart(await AreaChartUtility.handleSetDataAreaChart(issues, project, toDoLabel, doingLabel, doneLabel));
-        setOpenProgress(false);
-        setViewCharts(true);
-    }
-
     const handleUseLastSettings = async () => {
         setOpenProgress(true);
         let settings = SettingsService.getLastSettings();
@@ -188,6 +178,16 @@ const Home = (props) => {
         await handleChangeDoneLabel(settings.labels.done);
         //await handleChangeMilestone(settings.milestone);
         setOpenProgress(false);
+    }
+
+    const handleSetDataChart = async () => {
+        setOpenProgress(true);
+        SettingsService.saveLastSettings(group, project, toDoLabel, doingLabel, doneLabel, milestone);
+        setDataColumnChart(ColumnChartUtility.handleSetDataColumnChart(issues));
+        setDataLineChart(LineChartUtility.handleSetDataLineChart(issues));
+        setDataAreaChart(await AreaChartUtility.handleSetDataAreaChart(issues, project, toDoLabel, doingLabel, doneLabel));
+        setOpenProgress(false);
+        setViewCharts(true);
     }
 
     const options = {

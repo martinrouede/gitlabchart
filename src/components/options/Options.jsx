@@ -34,7 +34,7 @@ const Options = (props) => {
                         value={props.options.group}
                         onChange={event => props.options.handleChangeGroup(event.target.value)}
                     >
-                        <MenuItem value={null}>-</MenuItem>
+                        <MenuItem value={''}>-</MenuItem>
                         {props.options.groups.map(aGroup => renderSelectGroup(aGroup))}
                     </Select>
                 </FormControl>
@@ -47,7 +47,7 @@ const Options = (props) => {
                         value={props.options.project}
                         onChange={event => props.options.handleChangeProject(event.target.value)}
                     >
-                        <MenuItem value={null}>-</MenuItem>
+                        <MenuItem value={''}>-</MenuItem>
                         {props.options.projects.map((aProject) => (
                             <MenuItem key={aProject.id} value={aProject.id}>{aProject.name}</MenuItem>
                         ))}
@@ -63,7 +63,7 @@ const Options = (props) => {
                         onChange={event => props.options.handleChangeToDoLabel(event.target.value)}
                         input={<Input id="select-label-todo-chip" />}
                     >
-                        <MenuItem value={null}>-</MenuItem>
+                        <MenuItem value={''}>-</MenuItem>
                         {props.options.labels.map((aLabel) => (
                             <MenuItem key={aLabel.id} value={aLabel}>
                                 <Chip key={aLabel.id} label={aLabel.name} style={{ backgroundColor: aLabel.color }} className={classes.chip} />
@@ -81,7 +81,7 @@ const Options = (props) => {
                         onChange={event => props.options.handleChangeDoingLabel(event.target.value)}
                         input={<Input id="select-label-doing-chip" />}
                     >
-                        <MenuItem value={null}>-</MenuItem>
+                        <MenuItem value={''}>-</MenuItem>
                         {props.options.labels.map((aLabel) => (
                             <MenuItem key={aLabel.id} value={aLabel}>
                                 <Chip key={aLabel.id} label={aLabel.name} style={{ backgroundColor: aLabel.color }} className={classes.chip} />
@@ -99,7 +99,7 @@ const Options = (props) => {
                         onChange={event => props.options.handleChangeDoneLabel(event.target.value)}
                         input={<Input id="select-label-done-chip" />}
                     >
-                        <MenuItem value={null}>-</MenuItem>
+                        <MenuItem value={''}>-</MenuItem>
                         {props.options.labels.map((aLabel) => (
                             <MenuItem key={aLabel.id} value={aLabel}>
                                 <Chip key={aLabel.id} label={aLabel.name} style={{ backgroundColor: aLabel.color }} className={classes.chip} />
@@ -116,7 +116,7 @@ const Options = (props) => {
                         value={props.options.milestone}
                         onChange={event => props.options.handleChangeMilestone(event.target.value)}
                     >
-                        <MenuItem value={null}>-</MenuItem>
+                        <MenuItem value={''}>-</MenuItem>
                         {props.options.milestones.map((aMilestone) => (
                             <MenuItem key={aMilestone.id} value={aMilestone.title}>{aMilestone.title}</MenuItem>
                         ))}
