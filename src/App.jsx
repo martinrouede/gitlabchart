@@ -13,7 +13,7 @@ import ConfigAxios from './midlewares/axios';
 import ThemeService from './services/theme.service';
 import AuthService from './services/auth.service';
 
-const App = (props) => {
+const App = () => {
   const classes = Styles.useStyles();
 
   const [themeMode, setThemeMode] = useState(ThemeService.getTheme() ? ThemeService.getTheme().darkMode : false);
@@ -44,11 +44,9 @@ const App = (props) => {
           <ConfigAxios />
 
           <Switch>
-
             <Route exact path="/">
               {isLoggedIn ? <Home setUser={setUser} /> : <Login />}
             </Route>
-
           </Switch>
 
           <Contact />

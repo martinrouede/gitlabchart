@@ -10,7 +10,7 @@ import LineChart from '../charts/LineChart';
 import AreaChart from '../charts/AreaChart';
 import Options from '../options/Options';
 import RequestGitLab from '../../services/request.gitlab.service';
-import AuthServivice from '../../services/auth.service';
+import AuthService from '../../services/auth.service';
 import SettingsService from '../../services/settings.service';
 import ColumnChartUtility from '../../utilities/chart.column.utility';
 import LineChartUtility from '../../utilities/chart.line.utility';
@@ -44,7 +44,7 @@ const Home = (props) => {
     const [dataLineChart, setDataLineChart] = useState([]);
     const [dataAreaChart, setDataAreaChart] = useState([]);
 
-    const currentUser = AuthServivice.getCurrentUser();
+    const currentUser = AuthService.getCurrentUser();
 
     useEffect(() => {
         async function fetchData() {

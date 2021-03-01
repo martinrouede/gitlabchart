@@ -18,7 +18,7 @@ import Styles from './Styles';
 import GitLabLogo from '../../logo/GitLabLogo';
 import AuthService from '../../services/auth.service';
 
-const Login = (props) => {
+const Login = () => {
     const classes = Styles.useStyles();
 
     const [privateToken, setPrivateToken] = useState(null);
