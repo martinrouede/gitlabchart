@@ -2,6 +2,9 @@ import AuthService from '../services/auth.service';
 import RequestGitLab from '../services/request.gitlab.service';
 import CommonUtility from './common.utility';
 
+/**
+ * converts a flat array of gitlab groups into a tree with parent groups and child groups
+ **/
 const sortGroups = async (groups) => {
     let parents = [];
     for (let i = 0; i < groups.length; i++) {
@@ -20,6 +23,9 @@ const sortGroups = async (groups) => {
     return parents;
 }
 
+/**
+ * sort issues in order ascending by date of done, its useful for charts
+ **/
 const sortIssues = async (issues, project, doingLabel, doneLabel) => {
     for (let index = 0; index < issues.length; index++) {
         const issue = issues[index];
@@ -50,6 +56,6 @@ const sortIssues = async (issues, project, doingLabel, doneLabel) => {
 const utility = {
     sortGroups,
     sortIssues
-};
+}
 
 export default utility;

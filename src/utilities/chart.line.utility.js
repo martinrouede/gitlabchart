@@ -1,6 +1,10 @@
 import CommonUtility from './common.utility';
 
+/**
+ * prepare the structure and build all the data to use in the Burndown Chart
+ **/
 const handleSetDataLineChart = (issues) => {
+
     let data = [];
     data.push(['x', 'Estimated', 'Spent']);
 
@@ -28,11 +32,12 @@ const handleSetDataLineChart = (issues) => {
         data.push(issue);
         index++;
     }
+
     return data;
 }
 
 const utility = {
     handleSetDataLineChart
-};
+}
 
 export default utility;

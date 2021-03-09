@@ -1,6 +1,10 @@
 const SEG_HORAS = 3600;
 
+/**
+ * prepare the structure and build all the data to use in the Comparative Issues Chart
+ **/
 const handleSetDataColumnChart = (issues) => {
+
     let data = [];
     data.push(['# Issue', 'Estimated', 'Spent']);
     for (let index = 0; index < issues.length; index++) {
@@ -21,6 +25,6 @@ const handleSetDataColumnChart = (issues) => {
 
 const utility = {
     handleSetDataColumnChart
-};
+}
 
 export default utility;

@@ -4,6 +4,9 @@ import AuthService from '../services/auth.service';
 
 const moment = require('moment');
 
+/**
+ * prepare the structure and build all the data to use in the Cumulative Flow Chart
+ **/
 const handleSetDataAreaChart = async (issues, project, todoLabel, doingLabel, doneLabel) => {
 
     let issuesInfo = [];
@@ -24,6 +27,9 @@ const handleSetDataAreaChart = async (issues, project, todoLabel, doingLabel, do
     return generateDataForChart(issuesInfo);
 }
 
+/**
+ * add the dates on which each of the issues went from todo to doing and from doing to done
+ **/
 const completeIssuesDateProgress = (info, resources, todoLabel, doingLabel, doneLabel) => {
 
     for (let i = 0; i < resources.length; i++) {
@@ -56,7 +62,12 @@ const completeIssuesDateProgress = (info, resources, todoLabel, doingLabel, done
     return info;
 }
 
+/**
+ * returns the number of issues in each column (todo, doing, done) day by day.
+ * For later use this data as input in Cumulative Flow Chart
+ **/
 const generateDataForChart = (issuesInfo) => {
+
     let businessDays = CommonUtility.getBusinessDays(issuesInfo[0].issue.milestone.start_date, issuesInfo[0].issue.milestone.due_date);
 
     let data = [];
@@ -91,6 +102,6 @@ const generateDataForChart = (issuesInfo) => {
 
 const utility = {
     handleSetDataAreaChart
-};
+}
 
 export default utility;
