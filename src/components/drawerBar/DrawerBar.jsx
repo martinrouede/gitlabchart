@@ -39,15 +39,15 @@ const DrawerBar = (props) => {
     const handleChange = () => {
         ThemeService.setTheme(!props.themeMode);
         props.setThemeMode(ThemeService.getTheme().darkMode);
-    };
+    }
 
     const handleDrawerOpen = () => {
         setOpen(true);
-    };
+    }
 
     const handleDrawerClose = () => {
         setOpen(false);
-    };
+    }
 
     return (
         <div className={classes.root}>

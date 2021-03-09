@@ -20,7 +20,7 @@ const Options = (props) => {
             );
         });
         return [<ListSubheader style={{ pointerEvents: 'none' }} >{group.full_name}</ListSubheader>, children];
-    };
+    }
 
     return (
         <div className={classes.root}>

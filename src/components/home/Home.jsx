@@ -87,7 +87,7 @@ const Home = (props) => {
         setDoingLabel('');
         setDoneLabel('');
         setViewCharts(false);
-    };
+    }
 
     const handleChangeProject = (value) => {
         if (value) {
@@ -124,28 +124,28 @@ const Home = (props) => {
         setDoingLabel('');
         setDoneLabel('');
         setViewCharts(false);
-    };
+    }
 
     const handleChangeToDoLabel = (value) => {
         if (value)
             setToDoLabel(value);
         else
             setToDoLabel('');
-    };
+    }
 
     const handleChangeDoingLabel = (value) => {
         if (value)
             setDoingLabel(value);
         else
             setDoingLabel('');
-    };
+    }
 
     const handleChangeDoneLabel = (value) => {
         if (value)
             setDoneLabel(value);
         else
             setDoneLabel('');
-    };
+    }
 
     const handleChangeMilestone = (value) => {
         setMilestone(value);
@@ -166,7 +166,7 @@ const Home = (props) => {
         }
         setIssues([]);
         setViewCharts(false);
-    };
+    }
 
     const handleUseLastSettings = async () => {
         setOpenProgress(true);

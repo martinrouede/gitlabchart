@@ -34,6 +34,7 @@ function ConfigAxios(props) {
             }
         );
     }, []);
+
     return (
         <Backdrop className={classes.backdrop} open={openProgress} >
             <CircularProgress color='inherit' />
