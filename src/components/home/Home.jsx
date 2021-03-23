@@ -2,13 +2,18 @@ import { useState, useEffect } from 'react';
 
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import FormControl from '@material-ui/core/FormControl';
+import Button from '@material-ui/core/Button';
 import Alert from '@material-ui/lab/Alert';
 
 import Styles from './Styles';
 import ColumnChart from '../charts/ColumnChart';
 import LineChart from '../charts/LineChart';
 import AreaChart from '../charts/AreaChart';
-import Options from '../options/Options';
+import LabelSelect from '../options/LabelSelect';
+import GroupSelect from '../options/GroupSelect';
+import ProjectSelect from '../options/ProjectSelect';
+import MilestoneSelect from '../options/MilestoneSelect';
 import RequestGitLab from '../../services/request.gitlab.service';
 import AuthService from '../../services/auth.service';
 import SettingsService from '../../services/settings.service';
@@ -171,13 +176,16 @@ const Home = (props) => {
     const handleUseLastSettings = async () => {
         setOpenProgress(true);
         let settings = SettingsService.getLastSettings();
-        await handleChangeGroup(settings.group);
-        await handleChangeProject(settings.project);
-        await handleChangeToDoLabel(settings.labels.todo);
-        await handleChangeDoingLabel(settings.labels.doing);
-        await handleChangeDoneLabel(settings.labels.done);
-        //await handleChangeMilestone(settings.milestone);
+        if (settings) {
+            await handleChangeGroup(settings.group);
+            await handleChangeProject(settings.project);
+            await handleChangeToDoLabel(settings.labels.todo);
+            await handleChangeDoingLabel(settings.labels.doing);
+            await handleChangeDoneLabel(settings.labels.done);
+            //await handleChangeMilestone(settings.milestone);
+        }
         setOpenProgress(false);
+
     }
 
     const handleSetDataChart = async () => {
@@ -190,30 +198,26 @@ const Home = (props) => {
         setViewCharts(true);
     }
 
-    const options = {
-        groups: groups,
-        group: group,
-        handleChangeGroup: handleChangeGroup,
-        projects: projects,
-        project: project,
-        handleChangeProject: handleChangeProject,
-        labels: labels,
-        toDoLabel: toDoLabel,
-        handleChangeToDoLabel: handleChangeToDoLabel,
-        doingLabel: doingLabel,
-        handleChangeDoingLabel: handleChangeDoingLabel,
-        doneLabel: doneLabel,
-        handleChangeDoneLabel: handleChangeDoneLabel,
-        milestones: milestones,
-        milestone: milestone,
-        handleChangeMilestone: handleChangeMilestone,
-        handleSetDataChart: handleSetDataChart,
-        handleUseLastSettings: handleUseLastSettings
-    }
-
     return (
         <div className={classes.root}>
-            <Options options={options} />
+            <GroupSelect value={group} nameLabel={'Groups'} handleChange={handleChangeGroup} groups={groups} />
+            <ProjectSelect value={project} nameLabel={'Projects'} handleChange={handleChangeProject} options={projects} />
+            <LabelSelect valueLabel={toDoLabel} nameLabel={'To Do Label'} handleChangeLabel={handleChangeToDoLabel} labels={labels} />
+            <LabelSelect valueLabel={doingLabel} nameLabel={'Doing Label'} handleChangeLabel={handleChangeDoingLabel} labels={labels} />
+            <LabelSelect valueLabel={doneLabel} nameLabel={'Done Label'} handleChangeLabel={handleChangeDoneLabel} labels={labels} />
+            <MilestoneSelect value={milestone} nameLabel={'Milestones'} handleChange={handleChangeMilestone} options={milestones} />
+            <div className={classes.buttons}>
+                <FormControl className={classes.formControl}>
+                    <Button color='secondary' onClick={() => handleUseLastSettings()}>Use last config</Button>
+                </FormControl>
+
+                <FormControl className={classes.formControl}>
+                    <Button variant='contained' color='secondary' onClick={() => handleSetDataChart()}
+                        disabled={!milestone || !toDoLabel || !doingLabel || !doneLabel || !project || !group}>
+                        Generate Charts
+                    </Button>
+                </FormControl>
+            </div>
             {
                 viewCharts ?
                     <div className={classes.charts} >
