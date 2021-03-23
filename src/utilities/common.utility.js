@@ -20,6 +20,8 @@ const fullTimeEstimate = (issues) => {
  **/
 const getCardsByDay = (issues, businessDays) => {
 
+    issues = issues.filter((aIssue) => { return aIssue.moveDone !== "-" });
+
     let hoursClosedPerDay = new Array(businessDays.length);
     for (let index = 0; index < hoursClosedPerDay.length; index++) {
         hoursClosedPerDay[index] = 0;
@@ -84,12 +86,22 @@ const findIndexParent = (groups, parentId) => {
     }
 }
 
+/**
+ * returns a boolean if in today the sprint is in progress
+ **/
+const sprintInProgress = (today, dateFinishSprint) => {
+    if (moment(today.setHours(23, 59, 59, 0)).isBefore(new Date(dateFinishSprint).setHours(23, 59, 59, 0)))
+        return true;
+    return false;
+}
+
 const utility = {
     SEG_HORAS,
     fullTimeEstimate,
     getCardsByDay,
     getBusinessDays,
-    findIndexParent
+    findIndexParent,
+    sprintInProgress
 }
 
 export default utility;

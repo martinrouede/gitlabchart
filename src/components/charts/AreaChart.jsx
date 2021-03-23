@@ -20,6 +20,7 @@ const AreaChart = (props) => {
                 titleTextStyle: { color: theme.palette.text.primary },
                 backgroundColor: theme.palette.background.default,
                 lineWidth: 5,
+                colors: ['yellow', 'red', 'blue', theme.palette.background.default],
                 hAxis: {
                     title: 'Business Days',
                     titleTextStyle: { color: theme.palette.text.primary },

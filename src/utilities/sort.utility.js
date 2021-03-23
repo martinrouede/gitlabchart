@@ -34,12 +34,13 @@ const sortIssues = async (issues, project, doingLabel, doneLabel) => {
             const element = issueResources[index];
             if (element.action === 'add' && element.label.name === doneLabel.name) {
                 issue.moveDone = element.created_at;
-            } else {
-                if (element.action === 'remove' && element.label.name === doingLabel.name) {
-                    issue.moveDone = element.created_at;
-                }
+            }
+            if (element.action === 'remove' && element.label.name === doingLabel.name) {
+                issue.moveDone = element.created_at;
             }
         }
+        if (!issue.moveDone)
+            issue.moveDone = '-';
     }
 
     let filterIssues = issues.filter(issue => { return issue.moveDone });

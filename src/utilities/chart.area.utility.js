@@ -71,9 +71,15 @@ const generateDataForChart = (issuesInfo) => {
     let businessDays = CommonUtility.getBusinessDays(issuesInfo[0].issue.milestone.start_date, issuesInfo[0].issue.milestone.due_date);
 
     let data = [];
-    data.push(['Days', 'Done', 'Doing', 'To Do']);
+    data.push(['Days', 'Done', 'Doing', 'To Do', '']);
 
-    for (let i = 0; i < businessDays.length; i++) {
+    let today = new Date();
+    let finishSprint = businessDays[businessDays.length - 1];
+    let lastDay;
+    if (CommonUtility.sprintInProgress(today, finishSprint))
+        lastDay = CommonUtility.getBusinessDays(issuesInfo[0].issue.milestone.start_date, today).length;
+
+    for (let i = 0; i <= businessDays.length; i++) {
         let todo = 0;
         let doing = 0;
         let done = 0;
@@ -88,15 +94,22 @@ const generateDataForChart = (issuesInfo) => {
                 done++;
             }
         }
+        if (i >= lastDay) {
+            done = null;
+            doing = null;
+            todo = null;
+        }
         let issue = [
             i,
             done,
             doing,
-            todo
+            todo,
+            1
         ]
         data.push(issue);
     }
 
+    console.log(data);
     return data;
 }
 
