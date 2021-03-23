@@ -12,11 +12,12 @@ const handleSetDataAreaChart = async (issues, project, todoLabel, doingLabel, do
     let issuesInfo = [];
 
     for (let index = 0; index < issues.length; index++) {
+        let today = new Date();
         let info = {
             issue: issues[index],
-            todo: { start: null, end: null },
-            doing: { start: null, end: null },
-            done: { start: null, end: null },
+            todo: { start: today, end: today },
+            doing: { start: today, end: today },
+            done: { start: today, end: today },
         };
         let resources = await RequestGitLab.fetchResources(AuthService.getCurrentUser(), project, issues[index].iid);
 
@@ -83,14 +84,15 @@ const generateDataForChart = (issuesInfo) => {
         let todo = 0;
         let doing = 0;
         let done = 0;
+        let day = new Date(businessDays[i]);
         for (let index = 0; index < issuesInfo.length; index++) {
-            if (moment(new Date(businessDays[i])).isBetween(new Date(issuesInfo[index].todo.start), new Date(issuesInfo[index].todo.end), undefined, '[]')) {
+            if (moment(day).isBetween(new Date(issuesInfo[index].todo.start), new Date(issuesInfo[index].todo.end), undefined, '[]')) {
                 todo++;
             }
-            if (moment(new Date(businessDays[i])).isBetween(new Date(issuesInfo[index].doing.start), new Date(issuesInfo[index].doing.end), undefined, '[]')) {
+            if (moment(day).isBetween(new Date(issuesInfo[index].doing.start), new Date(issuesInfo[index].doing.end), undefined, '[]')) {
                 doing++;
             }
-            if (moment(new Date(businessDays[i])).isBetween(new Date(issuesInfo[index].done.start), new Date(issuesInfo[index].done.end), undefined, '[]')) {
+            if (moment(day).isBetween(new Date(issuesInfo[index].done.start), new Date(issuesInfo[index].done.end), undefined, '[]')) {
                 done++;
             }
         }
@@ -109,7 +111,6 @@ const generateDataForChart = (issuesInfo) => {
         data.push(issue);
     }
 
-    console.log(data);
     return data;
 }
 
