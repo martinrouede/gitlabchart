@@ -5,7 +5,7 @@ import Cookies from 'js-cookie'
  **/
 const login = async (serverUrl, privateToken) => {
 	let data = { url: serverUrl, token: privateToken }
-	Cookies.set('user', JSON.stringify(data));
+	Cookies.set('user', JSON.stringify(data), { expires: 365 });
 }
 
 /**
@@ -13,6 +13,7 @@ const login = async (serverUrl, privateToken) => {
  **/
 const logout = async () => {
 	Cookies.remove('user');
+	Cookies.remove('settings');
 	window.location.reload();
 }
 
@@ -20,24 +21,14 @@ const logout = async () => {
  * get the info of user logged in
  **/
 const getCurrentUser = () => {
-	let userJson = Cookies.get('user');
-
-	if (userJson == null)
-		return false;
-
-	return JSON.parse(Cookies.get('user'));
+	return Cookies.getJSON('user');
 }
 
 /**
  * verify if there are a user logged in
  **/
 const isAuthenticated = () => {
-	let userJson = Cookies.get('user');
-	if (userJson == null)
-		return false;
-
-	let user = JSON.parse(userJson);
-	return (user != null);
+	return Cookies.getJSON('user');
 }
 
 const service = {

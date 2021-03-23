@@ -5,19 +5,14 @@ import Cookies from 'js-cookie'
  **/
 const setTheme = async (themeMode) => {
     let data = { darkMode: themeMode }
-    Cookies.set('theme', JSON.stringify(data));
+    Cookies.set('theme', JSON.stringify(data), { expires: 365 });
 }
 
 /**
  * get the theme preferences saved in the cookie
  **/
 const getTheme = () => {
-    let modeJson = Cookies.get('theme');
-
-    if (modeJson)
-        return JSON.parse(Cookies.get('theme'));
-
-    return null;
+    return Cookies.getJSON('theme');
 }
 
 const service = {
