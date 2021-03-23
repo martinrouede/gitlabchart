@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 
+import { useTheme } from '@material-ui/core/styles';
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import FormControl from '@material-ui/core/FormControl';
@@ -24,6 +25,7 @@ import SortUtility from '../../utilities/sort.utility';
 
 const Home = (props) => {
     const classes = Styles.useStyles();
+    const theme = useTheme();
 
     const [openProgress, setOpenProgress] = useState(false);
     const [viewCharts, setViewCharts] = useState(false);
@@ -223,7 +225,7 @@ const Home = (props) => {
                     <div className={classes.charts} >
                         <ColumnChart data={dataColumnChart} />
                         <LineChart data={dataLineChart} />
-                        <AreaChart data={dataAreaChart} />
+                        <AreaChart data={dataAreaChart} colors={[doneLabel.color, doingLabel.color, toDoLabel.color, theme.palette.background.default]} />
                     </div >
                     : <div />
             }

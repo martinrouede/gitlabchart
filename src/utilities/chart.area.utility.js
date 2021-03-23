@@ -79,7 +79,7 @@ const generateDataForChart = (issuesInfo) => {
     if (CommonUtility.sprintInProgress(today, finishSprint))
         lastDay = CommonUtility.getBusinessDays(issuesInfo[0].issue.milestone.start_date, today).length;
 
-    for (let i = 0; i <= businessDays.length; i++) {
+    for (let i = 0; i < businessDays.length; i++) {
         let todo = 0;
         let doing = 0;
         let done = 0;
