@@ -22,7 +22,7 @@ const AreaChart = (props) => {
                 lineWidth: 5,
                 colors: props.colors,
                 hAxis: {
-                    title: 'Business Days',
+                    title: 'Sprint Days',
                     titleTextStyle: { color: theme.palette.text.primary },
                     textStyle: { color: theme.palette.text.primary },
                     gridlines: { color: theme.palette.text.secondary, count: props.data.length },

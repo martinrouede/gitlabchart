@@ -26,25 +26,12 @@ const getCardsByDay = (issues, businessDays) => {
     for (let index = 0; index < hoursClosedPerDay.length; index++) {
         hoursClosedPerDay[index] = 0;
     }
-    let lastMonday;
-    for (let index = 0; index < businessDays.length; index++) {
-        const element = businessDays[index];
-        if (element.getDay() === 1)
-            lastMonday = index;
-    }
+    
     for (let i = 0; i < issues.length; i++) {
         for (let j = 0; j < businessDays.length; j++) {
             var doneDate = new Date(issues[i].moveDone);
             if (moment(doneDate.setHours(23, 59, 59, 0)).isSame(new Date(businessDays[j]).setHours(23, 59, 59, 0))) {
                 hoursClosedPerDay[j] += (issues[i].time_stats.time_estimate / SEG_HORAS);
-            }
-        }
-        if (doneDate.getDay() === 0 || doneDate.getDay() === 6) {
-            if (moment(doneDate.setHours(23, 59, 59, 0)).isBefore(new Date(businessDays[lastMonday]).setHours(23, 59, 59, 0))) {
-                hoursClosedPerDay[lastMonday] += (issues[i].time_stats.time_estimate / SEG_HORAS);
-            }
-            else {
-                hoursClosedPerDay[businessDays.length - 1] += (issues[i].time_stats.time_estimate / SEG_HORAS);
             }
         }
     }
@@ -66,8 +53,7 @@ const getBusinessDays = (startDate, endDate) => {
     let currentDay = dateFrom;
     let businessDays = [];
     while (moment(new Date(currentDay).setHours(23, 59, 59, 0)).isBefore(new Date(dateTo).setHours(23, 59, 59, 0))) {
-        if (currentDay.getDay() >= 1 && currentDay.getDay() <= 5)
-            businessDays.push(new Date(currentDay));
+        businessDays.push(new Date(currentDay));
         currentDay.setHours(currentDay.getHours() + 24);
     }
 

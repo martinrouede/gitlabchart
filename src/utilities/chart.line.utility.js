@@ -12,13 +12,12 @@ const handleSetDataLineChart = (issues) => {
 
     let hoursEstimate = CommonUtility.fullTimeEstimate(issues);
     let businessDays = CommonUtility.getBusinessDays(issues[0].milestone.start_date, issues[0].milestone.due_date);
-    let estimatePerDay = (hoursEstimate / businessDays.length);
+    let bd = businessDays.filter((aDay) => { return aDay.getDay() > 0 && aDay.getDay() < 6 });
+    let estimatePerDay = (hoursEstimate / bd.length);
     let diagonalEstimate = hoursEstimate;
     let diagonalSpent = hoursEstimate;
 
     let closedCardEstimate = CommonUtility.getCardsByDay(issues, businessDays);
-
-    data.push([0, diagonalEstimate, diagonalSpent, diagonalSpent+1]);
 
     let index = 0;
 
@@ -29,7 +28,9 @@ const handleSetDataLineChart = (issues) => {
         lastDay = CommonUtility.getBusinessDays(issues[0].milestone.start_date, today).length;
 
     while (index < businessDays.length) {
-        diagonalEstimate -= estimatePerDay;
+        if (businessDays[index].getDay() > 0 && businessDays[index].getDay() < 6) {
+            diagonalEstimate -= estimatePerDay;
+        }
         diagonalSpent -= closedCardEstimate[index];
 
         if (diagonalEstimate < 0)
@@ -39,10 +40,10 @@ const handleSetDataLineChart = (issues) => {
             diagonalSpent = null;
         }
         let issue = [
-            index + 1,
+            index,
             diagonalEstimate,
             diagonalSpent,
-            diagonalSpent+1
+            diagonalSpent + 1
         ]
         data.push(issue);
         index++;
