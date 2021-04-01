@@ -69,22 +69,22 @@ const completeIssuesDateProgress = (info, resources, todoLabel, doingLabel, done
  **/
 const generateDataForChart = (issuesInfo) => {
 
-    let businessDays = CommonUtility.getBusinessDays(issuesInfo[0].issue.milestone.start_date, issuesInfo[0].issue.milestone.due_date);
+    let sprintDays = CommonUtility.getSprintDays(issuesInfo[0].issue.milestone.start_date, issuesInfo[0].issue.milestone.due_date);
 
     let data = [];
     data.push(['Days', 'Done', 'Doing', 'To Do', '']);
 
     let today = new Date();
-    let finishSprint = businessDays[businessDays.length - 1];
+    let finishSprint = sprintDays[sprintDays.length - 1];
     let lastDay;
     if (CommonUtility.sprintInProgress(today, finishSprint))
-        lastDay = CommonUtility.getBusinessDays(issuesInfo[0].issue.milestone.start_date, today).length;
+        lastDay = CommonUtility.getSprintDays(issuesInfo[0].issue.milestone.start_date, today).length;
 
-    for (let i = 0; i < businessDays.length; i++) {
+    for (let i = 0; i < sprintDays.length; i++) {
         let todo = 0;
         let doing = 0;
         let done = 0;
-        let day = new Date(businessDays[i]);
+        let day = new Date(sprintDays[i]);
         for (let index = 0; index < issuesInfo.length; index++) {
             if (moment(day).isBetween(new Date(issuesInfo[index].todo.start), new Date(issuesInfo[index].todo.end), undefined, '[]')) {
                 todo++;
