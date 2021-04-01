@@ -6,21 +6,7 @@ import CommonUtility from './common.utility';
  * converts a flat array of gitlab groups into a tree with parent groups and child groups
  **/
 const sortGroups = async (groups) => {
-    let parents = [];
-    for (let i = 0; i < groups.length; i++) {
-        groups[i].children = [];
-        if (!groups[i].parent_id)
-            parents.push(groups[i]);
-    }
-
-    for (let i = 0; i < groups.length; i++) {
-        if (groups[i].parent_id) {
-            let index = CommonUtility.findIndexParent(parents, groups[i].parent_id);
-            parents[index].children.push(groups[i]);
-        }
-    }
-
-    return parents;
+    return groups.sort((a, b) => a.full_name.localeCompare(b.full_name));
 }
 
 /**
