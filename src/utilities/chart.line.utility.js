@@ -35,7 +35,7 @@ const handleSetDataLineChart = (issues) => {
 
         if (diagonalEstimate < 0)
             diagonalEstimate = 0;
-        if (index >= lastDay) {
+        if (index >= lastDay - 1) {
             diagonalEstimate = null;
             diagonalSpent = null;
         }

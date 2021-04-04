@@ -96,7 +96,7 @@ const generateDataForChart = (issuesInfo) => {
                 done++;
             }
         }
-        if (i >= lastDay) {
+        if (i >= lastDay - 1) {
             done = null;
             doing = null;
             todo = null;
