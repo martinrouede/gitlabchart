@@ -19,7 +19,7 @@ const AreaChart = (props) => {
                 title: 'Cumulative Flow Chart',
                 titleTextStyle: { color: theme.palette.text.primary },
                 backgroundColor: theme.palette.background.default,
-                lineWidth: 5,
+                lineWidth: 2,
                 colors: props.colors,
                 hAxis: {
                     title: 'Sprint Days',
@@ -27,7 +27,7 @@ const AreaChart = (props) => {
                     textStyle: { color: theme.palette.text.primary },
                     gridlines: { color: theme.palette.text.secondary, count: props.data.length },
                     baselineColor: { color: theme.palette.text.primary },
-                    minValue: 0
+                    minValue: 0,
                 },
                 vAxis: {
                     title: 'Amount of Issues',
