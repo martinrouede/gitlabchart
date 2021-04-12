@@ -19,7 +19,7 @@ const LineChart = (props) => {
                 titleTextStyle: { color: theme.palette.text.primary },
                 backgroundColor: theme.palette.background.default,
                 lineWidth: 5,
-                colors: ['red', 'blue', theme.palette.background.default],
+                colors: ['blue', 'red', theme.palette.background.default],
                 hAxis: {
                     title: 'Sprint Days',
                     titleTextStyle: { color: theme.palette.text.primary },
