@@ -12,8 +12,8 @@ const handleSetDataLineChart = (issues) => {
 
     let hoursEstimate = CommonUtility.fullTimeEstimate(issues);
     let sprintDays = CommonUtility.getSprintDays(issues[0].milestone.start_date, issues[0].milestone.due_date);
-    let bd = sprintDays.filter((aDay) => { return aDay.getDay() > 0 && aDay.getDay() < 6 });
-    let estimatePerDay = (hoursEstimate / bd.length);
+    let businessDays = sprintDays.filter((aDay) => { return aDay.getDay() > 0 && aDay.getDay() < 6 });
+    let estimatePerDay = (hoursEstimate / businessDays.length);
     let diagonalEstimate = hoursEstimate;
     let diagonalSpent = hoursEstimate;
 
@@ -28,9 +28,10 @@ const handleSetDataLineChart = (issues) => {
         lastDay = CommonUtility.getSprintDays(issues[0].milestone.start_date, today).length;
 
     while (index < sprintDays.length) {
-        if (sprintDays[index].getDay() > 0 && sprintDays[index].getDay() < 6) {
+        if (sprintDays[index].getDay() > 0 && sprintDays[index].getDay() < 6 && index > 0) {
             diagonalEstimate -= estimatePerDay;
         }
+
         diagonalSpent -= closedCardEstimate[index];
 
         if (diagonalEstimate < 0)
