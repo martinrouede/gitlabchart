@@ -5,7 +5,6 @@ import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import FormControl from '@material-ui/core/FormControl';
 import Button from '@material-ui/core/Button';
-import Alert from '@material-ui/lab/Alert';
 
 import Styles from './Styles';
 import ColumnChart from '../charts/ColumnChart';
@@ -22,6 +21,7 @@ import ColumnChartUtility from '../../utilities/chart.column.utility';
 import LineChartUtility from '../../utilities/chart.line.utility';
 import AreaChartUtility from '../../utilities/chart.area.utility';
 import SortUtility from '../../utilities/sort.utility';
+import AlertDialog from '../dialog/Dialog';
 
 const Home = (props) => {
     const classes = Styles.useStyles();
@@ -29,7 +29,7 @@ const Home = (props) => {
 
     const [openProgress, setOpenProgress] = useState(false);
     const [viewCharts, setViewCharts] = useState(false);
-    const [alert, setAlert] = useState({ severity: '', message: '' }); // error - warning - info - success
+    const [alert, setAlert] = useState({ open: '', message: '' });
 
     const [milestones, setMilestones] = useState([]);
     const [milestone, setMilestone] = useState('');
@@ -62,7 +62,7 @@ const Home = (props) => {
                 someGroups = await SortUtility.sortGroups(someGroups);
                 setGroups(someGroups);
             } catch (error) {
-                setAlert({ severity: 'error', message: error.message });
+                setAlert({ open: true, message: error.message });
             }
         }
         fetchData();
@@ -76,7 +76,7 @@ const Home = (props) => {
                     let response = await RequestGitLab.fetchProjects(currentUser, value);
                     setProjects(response);
                 } catch (error) {
-                    setAlert({ severity: 'error', message: error.message });
+                    setAlert({ open: true, message: error.message });
                 }
             }
             fetchData();
@@ -115,7 +115,7 @@ const Home = (props) => {
                     setLabels(labelsAux);
 
                 } catch (error) {
-                    setAlert({ severity: 'error', message: error.message });
+                    setAlert({ open: true, message: error.message });
                 }
             }
             fetchData();
@@ -163,7 +163,7 @@ const Home = (props) => {
                     someIssues = await SortUtility.sortIssues(someIssues, project, doingLabel, doneLabel);
                     setIssues(someIssues);
                 } catch (error) {
-                    setAlert({ severity: 'error', message: error.message });
+                    setAlert({ open: true, message: error.message });
                 }
             }
             fetchData();
@@ -176,28 +176,35 @@ const Home = (props) => {
     }
 
     const handleUseLastSettings = async () => {
-        setOpenProgress(true);
-        let settings = SettingsService.getLastSettings();
-        if (settings) {
-            await handleChangeGroup(settings.group);
-            await handleChangeProject(settings.project);
-            await handleChangeToDoLabel(settings.labels.todo);
-            await handleChangeDoingLabel(settings.labels.doing);
-            await handleChangeDoneLabel(settings.labels.done);
-            //await handleChangeMilestone(settings.milestone);
+        try {
+            setOpenProgress(true);
+            let settings = SettingsService.getLastSettings();
+            if (settings) {
+                await handleChangeGroup(settings.group);
+                await handleChangeProject(settings.project);
+                await handleChangeToDoLabel(settings.labels.todo);
+                await handleChangeDoingLabel(settings.labels.doing);
+                await handleChangeDoneLabel(settings.labels.done);
+                //await handleChangeMilestone(settings.milestone);
+            }
+            setOpenProgress(false);
+        } catch (error) {
+            setAlert({ open: true, message: error.message });
         }
-        setOpenProgress(false);
-
     }
 
     const handleSetDataChart = async () => {
-        setOpenProgress(true);
-        SettingsService.saveLastSettings(group, project, toDoLabel, doingLabel, doneLabel, milestone);
-        setDataColumnChart(ColumnChartUtility.handleSetDataColumnChart(issues));
-        setDataLineChart(LineChartUtility.handleSetDataLineChart(issues));
-        setDataAreaChart(await AreaChartUtility.handleSetDataAreaChart(issues, project, toDoLabel, doingLabel, doneLabel));
-        setOpenProgress(false);
-        setViewCharts(true);
+        try {
+            setOpenProgress(true);
+            SettingsService.saveLastSettings(group, project, toDoLabel, doingLabel, doneLabel, milestone);
+            setDataColumnChart(ColumnChartUtility.handleSetDataColumnChart(issues));
+            setDataLineChart(LineChartUtility.handleSetDataLineChart(issues));
+            setDataAreaChart(await AreaChartUtility.handleSetDataAreaChart(issues, project, toDoLabel, doingLabel, doneLabel));
+            setOpenProgress(false);
+            setViewCharts(true);
+        } catch (error) {
+            setAlert({ open: true, message: error.message });
+        }
     }
 
     return (
@@ -233,8 +240,8 @@ const Home = (props) => {
                 <CircularProgress color='inherit' />
             </Backdrop>
             {
-                alert.severity ?
-                    <Alert severity={alert.severity}>{alert.message}</Alert>
+                alert.open ?
+                    <AlertDialog alert={alert} setAlert={setAlert}></AlertDialog>
                     : <div />
             }
         </div >
