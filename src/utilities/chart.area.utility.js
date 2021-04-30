@@ -80,10 +80,15 @@ const generateDataForChart = (issuesInfo) => {
     if (CommonUtility.sprintInProgress(today, finishSprint))
         lastDay = CommonUtility.getSprintDays(issuesInfo[0].issue.milestone.start_date, today).length;
 
+
+    let todo = 0;
+    let doing = 0;
+    let done = 0;
+
     for (let i = 0; i < sprintDays.length; i++) {
-        let todo = 0;
-        let doing = 0;
-        let done = 0;
+        todo = 0;
+        doing = 0;
+        done = 0;
         let day = new Date(sprintDays[i]);
         for (let index = 0; index < issuesInfo.length; index++) {
             if (moment(day).isBetween(new Date(issuesInfo[index].todo.start), new Date(issuesInfo[index].todo.end), undefined, '[]')) {
@@ -110,6 +115,14 @@ const generateDataForChart = (issuesInfo) => {
         ]
         data.push(issue);
     }
+
+    data.push([
+        sprintDays.length,
+        done,
+        doing,
+        todo,
+        1
+    ]);
 
     return data;
 }

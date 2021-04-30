@@ -36,6 +36,7 @@ const handleSetDataLineChart = (issues) => {
 
         if (diagonalEstimate < 0)
             diagonalEstimate = 0;
+
         if (index >= lastDay - 1) {
             diagonalEstimate = null;
             diagonalSpent = null;
@@ -49,6 +50,13 @@ const handleSetDataLineChart = (issues) => {
         data.push(issue);
         index++;
     }
+
+    data.push([
+        index,
+        diagonalEstimate,
+        diagonalSpent,
+        diagonalSpent + 1
+    ]);
 
     return data;
 }
