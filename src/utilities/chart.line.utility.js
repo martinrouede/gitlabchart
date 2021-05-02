@@ -51,13 +51,6 @@ const handleSetDataLineChart = (issues) => {
         index++;
     }
 
-    data.push([
-        index,
-        diagonalEstimate,
-        diagonalSpent,
-        diagonalSpent + 1
-    ]);
-
     return data;
 }
 

@@ -116,14 +116,6 @@ const generateDataForChart = (issuesInfo) => {
         data.push(issue);
     }
 
-    data.push([
-        sprintDays.length,
-        done,
-        doing,
-        todo,
-        1
-    ]);
-
     return data;
 }
 
