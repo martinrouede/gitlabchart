@@ -14,7 +14,8 @@ import LabelSelect from '../options/LabelSelect';
 import GroupSelect from '../options/GroupSelect';
 import ProjectSelect from '../options/ProjectSelect';
 import MilestoneSelect from '../options/MilestoneSelect';
-import RequestGitLab from '../../services/request.gitlab.service';
+import RequestGitLab from '../../services/restful/request.gitlab.service';
+import RequestGitLabGraphQL from '../../services/graphql/request.gitlab.service';
 import AuthService from '../../services/auth.service';
 import SettingsService from '../../services/settings.service';
 import ColumnChartUtility from '../../utilities/chart.column.utility';
@@ -73,6 +74,7 @@ const Home = (props) => {
             setGroup(value);
             async function fetchData() {
                 try {
+                    console.log(await RequestGitLabGraphQL.fetchAllIssues(currentUser));
                     let response = await RequestGitLab.fetchProjects(currentUser, value);
                     setProjects(response);
                 } catch (error) {

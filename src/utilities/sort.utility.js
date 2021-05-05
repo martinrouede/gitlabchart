@@ -1,5 +1,5 @@
 import AuthService from '../services/auth.service';
-import RequestGitLab from '../services/request.gitlab.service';
+import RequestGitLab from '../services/restful/request.gitlab.service';
 import CommonUtility from './common.utility';
 
 /**

@@ -1,5 +1,5 @@
 import CommonUtility from './common.utility';
-import RequestGitLab from '../services/request.gitlab.service';
+import RequestGitLab from '../services/restful/request.gitlab.service';
 import AuthService from '../services/auth.service';
 
 const moment = require('moment');
