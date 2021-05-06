@@ -6,7 +6,15 @@ import axios from 'axios';
 const fetchAllIssues = async (user) => {
     try {
         let response = await axios.post(user.url + 'api/graphql/?access_token=' + user.token, {
-            query: `query{currentUser{name username}}`
+            query: `query{
+                project(fullPath: "covid-19/unpsjb/cuidAR-unpsjb") {
+                    issues {
+                        nodes {
+                          title
+                        }
+                      }
+                    }
+            }`
         });
         return response.data;
     } catch (error) {
