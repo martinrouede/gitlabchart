@@ -18,7 +18,6 @@ const handleSetDataLineChart = (issues) => {
     let diagonalSpent = hoursEstimate;
 
     let closedCardEstimate = CommonUtility.getCardsByDay(issues, sprintDays);
-
     let index = 0;
 
     let today = new Date();
@@ -27,8 +26,10 @@ const handleSetDataLineChart = (issues) => {
     if (CommonUtility.sprintInProgress(today, finishSprint))
         lastDay = CommonUtility.getSprintDays(issues[0].milestone.start_date, today).length;
 
+    data.push([0, diagonalEstimate, diagonalSpent, hoursEstimate + 1]);
+
     while (index < sprintDays.length) {
-        if (sprintDays[index].getDay() > 0 && sprintDays[index].getDay() < 6 && index > 0) {
+        if (sprintDays[index].getDay() > 0 && sprintDays[index].getDay() < 6) {
             diagonalEstimate -= estimatePerDay;
         }
 
@@ -42,14 +43,20 @@ const handleSetDataLineChart = (issues) => {
             diagonalSpent = null;
         }
         let issue = [
-            index,
+            index + 1,
             diagonalEstimate,
             diagonalSpent,
-            diagonalSpent + 1
+            hoursEstimate + 1
         ]
         data.push(issue);
         index++;
     }
+    /*data.push([
+        index,
+        diagonalEstimate,
+        diagonalSpent,
+        hoursEstimate + 1
+    ]);*/
 
     return data;
 }

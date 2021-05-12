@@ -20,9 +20,11 @@ const sortIssues = async (issues, project, doingLabel, doneLabel) => {
             const element = issueResources[index];
             if (element.action === 'add' && element.label.name === doneLabel.name) {
                 issue.moveDone = element.created_at;
+                break;
             }
             if (element.action === 'remove' && element.label.name === doingLabel.name) {
                 issue.moveDone = element.created_at;
+                break;
             }
         }
         if (!issue.moveDone)
