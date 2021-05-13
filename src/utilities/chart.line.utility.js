@@ -8,7 +8,7 @@ const moment = require('moment');
 const handleSetDataLineChart = (issues) => {
 
     let data = [];
-    data.push(['x', 'Estimated', 'Spent', '']);
+    data.push(['x', 'Estimated', 'Spent']);
 
     let hoursEstimate = CommonUtility.fullTimeEstimate(issues);
     let sprintDays = CommonUtility.getSprintDays(issues[0].milestone.start_date, issues[0].milestone.due_date);
@@ -26,7 +26,7 @@ const handleSetDataLineChart = (issues) => {
     if (CommonUtility.sprintInProgress(today, finishSprint))
         lastDay = CommonUtility.getSprintDays(issues[0].milestone.start_date, today).length;
 
-    data.push([0, diagonalEstimate, diagonalSpent, hoursEstimate + 1]);
+    data.push([0, diagonalEstimate, diagonalSpent]);
 
     while (index < sprintDays.length) {
         if (sprintDays[index].getDay() > 0 && sprintDays[index].getDay() < 6) {
@@ -38,25 +38,19 @@ const handleSetDataLineChart = (issues) => {
         if (diagonalEstimate < 0)
             diagonalEstimate = 0;
 
-        if (index > lastDay - 1) {
-            diagonalEstimate = null;
+        //        if (sprintDays[index].getDay() > lastDay - 1) {
+
+        if (index > lastDay - 2) {
             diagonalSpent = null;
         }
         let issue = [
             index + 1,
             diagonalEstimate,
-            diagonalSpent,
-            hoursEstimate + 1
+            diagonalSpent
         ]
         data.push(issue);
         index++;
     }
-    /*data.push([
-        index,
-        diagonalEstimate,
-        diagonalSpent,
-        hoursEstimate + 1
-    ]);*/
 
     return data;
 }

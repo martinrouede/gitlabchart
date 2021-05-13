@@ -29,6 +29,7 @@ const handleSetDataAreaChart = async (issues, project, todoLabel, doingLabel, do
         info = completeIssuesDateProgress(info, resources, todoLabel, doingLabel, doneLabel);
         issuesInfo.push(info);
     }
+
     return generateDataForChart(issuesInfo);
 }
 
@@ -40,29 +41,41 @@ const completeIssuesDateProgress = (info, resources, todoLabel, doingLabel, done
     for (let i = 0; i < resources.length; i++) {
         let date = moment.utc(new Date(resources[i].created_at).setHours(0, 0, 0, 0)).toISOString();
         if (resources[i].label.name === todoLabel.name) {
-            if (resources[i].action === 'add') {
-                info.todo.start = date;
+            if (new Date(info.todo.start).getFullYear() !== new Date(date).getFullYear()) {
+                if (resources[i].action === 'add') {
+                    info.todo.start = date;
+                }
             }
-            if (resources[i].action === 'remove') {
-                info.todo.end = date;
+            if (new Date(info.todo.end).getFullYear() !== new Date(date).getFullYear()) {
+                if (resources[i].action === 'remove') {
+                    info.todo.end = date;
+                }
             }
         }
 
         if (resources[i].label.name === doingLabel.name) {
-            if (resources[i].action === 'add') {
-                info.doing.start = date;
+            if (new Date(info.doing.start).getFullYear() !== new Date(date).getFullYear()) {
+                if (resources[i].action === 'add') {
+                    info.doing.start = date;
+                }
             }
-            if (resources[i].action === 'remove') {
-                info.doing.end = date;
+            if (new Date(info.doing.end).getFullYear() !== new Date(date).getFullYear()) {
+                if (resources[i].action === 'remove') {
+                    info.doing.end = date;
+                }
             }
         }
 
         if (resources[i].label.name === doneLabel.name) {
-            if (resources[i].action === 'add') {
-                info.done.start = date;
+            if (new Date(info.done.start).getFullYear() !== new Date(date).getFullYear()) {
+                if (resources[i].action === 'add') {
+                    info.done.start = date;
+                }
             }
-            if (resources[i].action === 'remove') {
-                info.done.end = date;
+            if (new Date(info.done.end).getFullYear() !== new Date(date).getFullYear()) {
+                if (resources[i].action === 'remove') {
+                    info.done.end = date;
+                }
             }
         }
     }
@@ -99,7 +112,6 @@ const generateDataForChart = (issuesInfo) => {
         done = 0;
         let day = moment.utc(new Date(sprintDays[i].setHours(0, 0, 0, 0))).toISOString();
 
-        console.log(issuesInfo);
         for (let index = 0; index < issuesInfo.length; index++) {
 
             if (moment(day).isBetween(issuesInfo[index].todo.start, issuesInfo[index].todo.end, undefined, '[]')) {
@@ -113,7 +125,7 @@ const generateDataForChart = (issuesInfo) => {
             }
         }
 
-        if (i > lastDay - 1) {
+        if (i > lastDay - 2) {
             done = null;
             doing = null;
             todo = null;
@@ -127,14 +139,6 @@ const generateDataForChart = (issuesInfo) => {
         ]
         data.push(issue);
     }
-    //console.log(data);
-    /*data.push([
-        sprintDays.length,
-        done,
-        doing,
-        todo,
-        1
-    ]);*/
 
     return data;
 }

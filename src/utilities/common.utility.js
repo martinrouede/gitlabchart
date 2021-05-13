@@ -44,17 +44,16 @@ const getCardsByDay = (issues, sprintDays) => {
  **/
 const getSprintDays = (startDate, endDate) => {
 
-    let dateFrom = moment(startDate).toDate();
-    dateFrom = new Date(dateFrom.getTime() + (dateFrom.getTimezoneOffset() * 60000));
-
-    let dateTo = moment(endDate).toDate();
-    dateTo = new Date(dateTo.getTime() + (dateTo.getTimezoneOffset() * 60000));
+    let dateFrom = moment.utc(new Date(startDate).setHours(0, 0, 0, 0)).toISOString();
+    let dateTo = moment.utc(new Date(endDate).setHours(0, 0, 0, 0)).toISOString();
 
     let currentDay = dateFrom;
     let sprintDays = [];
-    while (moment(new Date(currentDay).setHours(23, 59, 59, 0)).isBefore(new Date(dateTo).setHours(23, 59, 59, 0))) {
-        sprintDays.push(new Date(currentDay));
-        currentDay.setHours(currentDay.getHours() + 24);
+    while (moment(currentDay).isSameOrBefore(dateTo)) {
+        let today = new Date(currentDay);
+        sprintDays.push(today);
+        today.setHours(today.getHours() + 24);
+        currentDay = moment.utc(today).toISOString();
     }
 
     return sprintDays;
